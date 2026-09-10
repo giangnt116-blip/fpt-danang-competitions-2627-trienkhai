@@ -74,17 +74,19 @@
 <body class="bg-slate-50 text-gray-800 min-h-screen flex flex-col antialiased">
     <!-- Header -->
     <header class="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm backdrop-blur-md bg-white/95">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-fpt-blue to-fpt-orange flex items-center justify-center text-white font-black text-xl shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 flex justify-between items-center">
+            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-fpt-blue to-fpt-orange flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-md shrink-0">
                     F
                 </div>
-                <div>
-                    <h1 class="text-base sm:text-lg font-extrabold text-fpt-blue leading-tight tracking-tight">Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng</h1>
-                    <p class="text-xs text-gray-500 font-medium">Hệ thống Giáo dục FPT</p>
+                <div class="min-w-0">
+                    <h1 class="text-xs sm:text-base lg:text-lg font-extrabold text-fpt-blue leading-tight tracking-tight line-clamp-2 sm:line-clamp-none break-words">
+                        Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng
+                    </h1>
+                    <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Hệ thống Giáo dục FPT</p>
                 </div>
             </div>
-            <div class="hidden sm:flex items-center gap-2">
+            <div class="hidden sm:flex items-center gap-2 shrink-0">
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-fpt-blue border border-blue-100">
                     Cổng thông tin Cuộc thi THCS
                 </span>
@@ -93,7 +95,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-fpt-blue via-blue-900 to-indigo-950 text-white py-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section class="relative bg-gradient-to-br from-fpt-blue via-blue-900 to-indigo-950 text-white py-6 sm:py-12 lg:py-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
         <div class="absolute inset-0 opacity-10 pointer-events-none">
             <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -104,21 +106,26 @@
                 <rect width="100%" height="100%" fill="url(#heroGrid)" />
             </svg>
         </div>
-        <div class="max-w-4xl mx-auto text-center relative z-10 space-y-4">
-            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-fpt-orange text-white shadow-sm">
-                NĂM HỌC 2026 - 2027
-            </span>
-            <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold uppercase tracking-tight leading-tight">
+        <div class="max-w-4xl mx-auto text-center relative z-10 space-y-2.5 sm:space-y-4">
+            <div class="flex flex-wrap items-center justify-center gap-2">
+                <span class="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-fpt-orange text-white shadow-sm">
+                    NĂM HỌC 2026 - 2027
+                </span>
+                <span class="inline-block px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-white/15 text-blue-100 backdrop-blur-sm border border-white/20">
+                    KHÁM PHÁ TIỀM NĂNG • KIẾN TẠO TƯƠNG LAI
+                </span>
+            </div>
+            <h2 class="text-xl sm:text-3xl lg:text-5xl font-extrabold uppercase tracking-tight leading-tight">
                 CỔNG THÔNG TIN CUỘC THI THCS
             </h2>
-            <p class="text-sm sm:text-base text-blue-100 max-w-2xl mx-auto font-normal leading-relaxed">
+            <p class="text-xs sm:text-sm md:text-base text-blue-100 max-w-2xl mx-auto font-normal leading-relaxed line-clamp-3 sm:line-clamp-none">
                 Tổng hợp và cập nhật thông tin các kỳ thi, sân chơi học thuật, nghệ thuật, thể thao và công nghệ dành riêng cho học sinh Khối 6 – 9 Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng.
             </p>
         </div>
     </section>
 
     <!-- Timeline Filter Section -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-5 sm:-mt-6 relative z-20">
         <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100">
             <div class="flex items-center justify-between mb-3">
                 <span class="text-xs font-bold text-fpt-blue uppercase tracking-wider flex items-center gap-1.5">
@@ -159,14 +166,16 @@
                     type="text" 
                     id="searchInput" 
                     placeholder="Tìm kiếm cuộc thi..." 
+                    aria-label="Tìm kiếm cuộc thi"
                     oninput="handleSearch(this.value)" 
-                    class="w-full pl-10 pr-9 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-fpt-blue focus:bg-white transition-colors"
+                    class="w-full h-11 pl-10 pr-9 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-base sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
                 >
                 <button 
                     id="clearSearchBtn" 
                     onclick="clearSearchInput()" 
                     class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
                     title="Xóa tìm kiếm"
+                    aria-label="Xóa nội dung tìm kiếm"
                 >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
@@ -179,7 +188,8 @@
                     <select 
                         id="gradeFilter" 
                         onchange="handleGradeFilter(this.value)" 
-                        class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-xl pl-3.5 pr-8 py-2.5 text-sm font-semibold text-gray-700 focus:outline-none focus:border-fpt-blue focus:bg-white transition-colors cursor-pointer"
+                        aria-label="Lọc theo khối lớp"
+                        class="w-full h-11 appearance-none bg-gray-50 border border-gray-200 rounded-xl pl-3.5 pr-8 py-2.5 text-base sm:text-sm font-semibold text-gray-700 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all cursor-pointer"
                     >
                         <option value="">Tất cả khối</option>
                         <option value="6">Khối 6</option>
@@ -197,7 +207,8 @@
                     <select 
                         id="categoryFilter" 
                         onchange="handleCategoryFilter(this.value)" 
-                        class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-xl pl-3.5 pr-8 py-2.5 text-sm font-semibold text-gray-700 focus:outline-none focus:border-fpt-blue focus:bg-white transition-colors cursor-pointer"
+                        aria-label="Lọc theo lĩnh vực"
+                        class="w-full h-11 appearance-none bg-gray-50 border border-gray-200 rounded-xl pl-3.5 pr-8 py-2.5 text-base sm:text-sm font-semibold text-gray-700 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all cursor-pointer"
                     >
                         <option value="">Tất cả lĩnh vực</option>
                     </select>
@@ -210,8 +221,9 @@
                 <button 
                     id="resetFilterBtn" 
                     onclick="resetAllFilters()" 
-                    class="hidden items-center gap-1.5 px-3.5 py-2.5 text-sm font-semibold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-xl transition-colors shrink-0"
+                    class="hidden items-center gap-1.5 px-3.5 py-2.5 h-11 text-sm font-semibold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-xl transition-colors shrink-0"
                     title="Khôi phục trạng thái mặc định"
+                    aria-label="Xóa tất cả bộ lọc"
                 >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     <span>Xóa bộ lọc</span>
@@ -246,54 +258,57 @@
     </footer>
 
     <!-- Modal Chi tiết -->
-    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex justify-center items-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl w-full max-w-3xl p-6 relative transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col shadow-2xl" id="detailContent">
-            <button onclick="closeModal('detailModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700" aria-label="Đóng">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex justify-center items-center p-3 sm:p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl sm:rounded-3xl w-full max-w-3xl p-4 sm:p-6 relative transform scale-95 transition-transform duration-300 max-h-[92vh] sm:max-h-[90vh] flex flex-col shadow-2xl" id="detailContent">
+            <button onclick="closeModal('detailModal')" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors z-10" aria-label="Đóng chi tiết cuộc thi">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <h3 id="modalTitle" class="text-2xl font-bold text-fpt-blue mb-4 pr-8 shrink-0 uppercase">Tên cuộc thi</h3>
-            <div class="overflow-y-auto pr-2 flex-grow space-y-6" id="modalBody">
+            <h3 id="modalTitle" class="text-lg sm:text-2xl font-bold text-fpt-blue mb-3 sm:mb-4 pr-10 shrink-0 uppercase leading-snug break-words">Tên cuộc thi</h3>
+            <div class="overflow-y-auto pr-1 sm:pr-2 flex-grow space-y-4 sm:space-y-6 text-sm text-gray-700" id="modalBody">
                 <!-- Nội dung chi tiết được tạo tự động bởi JavaScript -->
             </div>
-            <div class="mt-6 pt-4 border-t flex flex-wrap gap-3 shrink-0" id="modalActions">
-                <button onclick="closeModal('detailModal')" class="flex-1 min-w-[100px] bg-gray-100 text-gray-700 px-4 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors">Đóng</button>
-                <a id="modalOfficialLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden flex-1 min-w-[200px] bg-amber-500 text-white px-4 py-3 rounded-xl font-semibold hover:bg-amber-600 transition-colors text-center text-sm flex items-center justify-center gap-1.5">
-                    <span>🌐</span> Xem thông tin chính thức
-                </a>
-                <button id="modalBtnRegister" class="flex-1 min-w-[130px] bg-fpt-blue text-white px-4 py-3 rounded-xl font-semibold hover:bg-blue-800 transition-colors">Đăng ký ngay</button>
+            <div class="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 shrink-0" id="modalActions">
+                <div class="flex gap-2 sm:contents">
+                    <button onclick="closeModal('detailModal')" class="flex-1 sm:flex-initial sm:min-w-[100px] h-11 bg-gray-100 text-gray-700 px-4 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm flex items-center justify-center">Đóng</button>
+                    <a id="modalOfficialLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden flex-1 sm:flex-initial sm:min-w-[170px] h-11 bg-amber-500 text-white px-3.5 py-2.5 rounded-xl font-semibold hover:bg-amber-600 transition-colors text-xs sm:text-sm flex items-center justify-center gap-1.5 truncate">
+                        <span>🌐</span> <span class="truncate">Trang chính thức</span>
+                    </a>
+                </div>
+                <button id="modalBtnRegister" class="w-full sm:flex-1 h-11 bg-fpt-blue text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-blue-800 transition-colors text-sm sm:text-base flex items-center justify-center shadow-sm">Đăng ký ngay</button>
             </div>
         </div>
     </div>
 
     <!-- Modal Form Đăng ký -->
-    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex justify-center items-center p-4 opacity-0 transition-opacity duration-300">
-        <div class="bg-white rounded-3xl w-full max-w-md p-6 relative transform scale-95 transition-transform duration-300 shadow-2xl" id="registerContent">
-            <button onclick="closeModal('registerModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700" aria-label="Đóng">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex justify-center items-center p-3 sm:p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl sm:rounded-3xl w-full max-w-md p-4 sm:p-6 relative transform scale-95 transition-transform duration-300 shadow-2xl max-h-[92vh] flex flex-col" id="registerContent">
+            <button onclick="closeModal('registerModal')" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors z-10" aria-label="Đóng form đăng ký">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <h3 class="text-2xl font-bold text-fpt-blue mb-6">Đăng ký tham gia</h3>
-            <form id="registrationForm" onsubmit="submitForm(event)">
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Cuộc thi</label>
-                        <input type="text" id="regCompetition" readonly class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-800">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Họ và tên học sinh *</label>
-                        <input type="text" id="regStudentName" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-fpt-blue">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Lớp *</label>
-                        <input type="text" id="regClass" required placeholder="Ví dụ: 6A1" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-fpt-blue">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Số điện thoại phụ huynh *</label>
-                        <input type="tel" id="regPhone" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-fpt-blue">
-                    </div>
+            <div class="mb-3.5 sm:mb-5 pr-8 shrink-0">
+                <h3 class="text-xl sm:text-2xl font-bold text-fpt-blue leading-snug">Đăng ký tham gia</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Điền thông tin học sinh để ghi danh cuộc thi</p>
+            </div>
+            <form id="registrationForm" onsubmit="submitForm(event)" class="overflow-y-auto pr-1 -mr-1 space-y-3.5 sm:space-y-4 flex-grow">
+                <div>
+                    <label for="regCompetition" class="block text-xs font-bold text-gray-700 uppercase mb-1">Cuộc thi</label>
+                    <input type="text" id="regCompetition" readonly class="w-full h-11 bg-gray-100 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-gray-800 cursor-not-allowed">
                 </div>
-                <div class="mt-8 flex gap-3">
-                    <button type="button" onclick="closeModal('registerModal')" class="flex-1 bg-gray-100 text-gray-700 px-4 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors">Hủy</button>
-                    <button type="submit" id="submitBtn" class="flex-1 bg-fpt-orange text-white px-4 py-3 rounded-xl font-semibold hover:bg-orange-600 transition-colors flex justify-center items-center">Xác nhận</button>
+                <div>
+                    <label for="regStudentName" class="block text-xs font-bold text-gray-700 uppercase mb-1">Họ và tên học sinh *</label>
+                    <input type="text" id="regStudentName" required placeholder="Nhập họ và tên học sinh" class="w-full h-11 border border-gray-200 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all">
+                </div>
+                <div>
+                    <label for="regClass" class="block text-xs font-bold text-gray-700 uppercase mb-1">Lớp *</label>
+                    <input type="text" id="regClass" required placeholder="Ví dụ: 6A1" class="w-full h-11 border border-gray-200 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all">
+                </div>
+                <div>
+                    <label for="regPhone" class="block text-xs font-bold text-gray-700 uppercase mb-1">Số điện thoại phụ huynh *</label>
+                    <input type="tel" id="regPhone" required placeholder="Ví dụ: 0912345678" pattern="[0-9]{10,11}" class="w-full h-11 border border-gray-200 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all">
+                </div>
+                <div class="pt-3 pb-1 flex gap-2.5 sm:gap-3 shrink-0">
+                    <button type="button" onclick="closeModal('registerModal')" class="flex-1 h-11 bg-gray-100 text-gray-700 px-4 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center text-sm sm:text-base">Hủy</button>
+                    <button type="submit" id="submitBtn" class="flex-1 h-11 bg-fpt-orange text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-orange-600 transition-colors flex justify-center items-center text-sm sm:text-base shadow-sm">Xác nhận</button>
                 </div>
             </form>
         </div>
@@ -1006,6 +1021,31 @@
             form.reset();
             closeModal('registerModal');
         }
+
+        // Đóng modal khi click ra ngoài vùng backdrop
+        ['detailModal', 'registerModal'].forEach(id => {
+            const modalEl = document.getElementById(id);
+            if (modalEl) {
+                modalEl.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeModal(id);
+                    }
+                });
+            }
+        });
+
+        // Đóng modal bằng phím Escape (Hỗ trợ bàn phím / Accessibility)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const detailModal = document.getElementById('detailModal');
+                const registerModal = document.getElementById('registerModal');
+                if (registerModal && !registerModal.classList.contains('hidden')) {
+                    closeModal('registerModal');
+                } else if (detailModal && !detailModal.classList.contains('hidden')) {
+                    closeModal('detailModal');
+                }
+            }
+        });
     </script>
 </body>
 </html>
