@@ -1,6 +1,6 @@
 {
-  "name": "Cổng thông tin Cuộc thi THCS - Trường Tiểu học, THCS và THPT FPT Long Vân",
-  "description": "Cổng thông tin và đăng ký các cuộc thi, sân chơi học thuật, nghệ thuật, công nghệ dành riêng cho học sinh cấp Trung học cơ sở (Khối 6 - 8) - FPT Long Vân.",
+  "name": "Cổng thông tin Cuộc thi THCS - Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng",
+  "description": "Cổng thông tin và đăng ký các cuộc thi, sân chơi học thuật, nghệ thuật, công nghệ dành riêng cho học sinh cấp Trung học cơ sở (Khối 6 - 9) - Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
