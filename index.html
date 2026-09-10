@@ -13,107 +13,144 @@
             theme: {
                 extend: {
                     colors: {
-                        'fpt-orange': '#F26F21',
-                        'fpt-blue': '#103F91',
-                        'fpt-light': '#F8F9FA'
-                    },
-                    fontFamily: { 
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Montserrat', 'sans-serif']
+                        'fpt-orange': '#f36f21',
+                        'fpt-blue': '#092275',
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
     <style>
-        .toast {
-            visibility: hidden; min-width: 250px; background-color: #4CAF50; color: #fff;
-            text-align: center; border-radius: 12px; padding: 16px; position: fixed;
-            z-index: 1000; left: 50%; bottom: 30px; transform: translateX(-50%);
-            font-size: 16px; box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
         }
-        .toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .modal-body p { margin-bottom: 0.75rem; }
-        .modal-body ul { margin-bottom: 1rem; list-style-type: disc; padding-left: 1.25rem; }
-        .modal-body li { margin-bottom: 0.25rem; }
-        .hero-title {
-            font-family: 'Montserrat', sans-serif;
-            text-shadow: 3px 3px 0px #103F91, -2px -2px 0px #103F91, 2px -2px 0px #103F91, -2px 2px 0px #103F91, 2px 2px 0px #103F91, 0px 4px 10px rgba(0,0,0,0.8);
+        .toast {
+            visibility: hidden;
+            min-width: 260px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-align: center;
+            border-radius: 12px;
+            padding: 16px 24px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 40px;
+        }
+        .modal-body ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .modal-body p {
+            margin-bottom: 0.75rem;
+        }
+        .modal-body strong {
+            color: #092275;
         }
     </style>
 </head>
-<body class="bg-[#FFF9F5] text-gray-800 font-sans antialiased">
-
+<body class="bg-slate-50 text-gray-800 min-h-screen flex flex-col antialiased">
     <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center">
-                <img src="https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/logo%20FSC.png" alt="Logo FPT Schools" class="h-12 md:h-16 w-auto object-contain">
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm backdrop-blur-md bg-white/95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-fpt-blue to-fpt-orange flex items-center justify-center text-white font-black text-xl shadow-md">
+                    F
+                </div>
+                <div>
+                    <h1 class="text-base sm:text-lg font-extrabold text-fpt-blue leading-tight tracking-tight">Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng</h1>
+                    <p class="text-xs text-gray-500 font-medium">Hệ thống Giáo dục FPT</p>
+                </div>
             </div>
-            <div>
-                <h1 class="text-xs md:text-sm lg:text-base font-extrabold text-fpt-blue uppercase tracking-wide text-right leading-tight">Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng</h1>
+            <div class="hidden sm:flex items-center gap-2">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-fpt-blue border border-blue-100">
+                    Cổng thông tin Cuộc thi THCS
+                </span>
             </div>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-[#0d32b2] via-[#092275] to-[#041240] py-10 md:py-16 overflow-hidden flex items-center">
-        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#ffffff 1.5px, transparent 1.5px); background-size: 28px 28px;"></div>
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10"></div>
-        
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-center text-center">
-            <div class="inline-block bg-gradient-to-r from-fpt-orange to-amber-500 text-white font-extrabold text-xs md:text-sm px-5 py-2 rounded-full uppercase tracking-wider mb-3 shadow-lg transform hover:scale-105 transition-transform">
-                🚀 Sân chơi Trí tuệ & Sáng tạo THCS 2026 - 2027
-            </div>
-            <h2 class="text-2xl md:text-5xl font-black mb-3 tracking-tight text-white uppercase hero-title">
-                Khai phá tiềm năng <span class="text-amber-400">Kiến tạo tương lai</span>
+    <section class="relative bg-gradient-to-br from-fpt-blue via-blue-900 to-indigo-950 text-white py-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="heroGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#heroGrid)" />
+            </svg>
+        </div>
+        <div class="max-w-4xl mx-auto text-center relative z-10 space-y-4">
+            <span class="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider bg-fpt-orange text-white shadow-sm">
+                NĂM HỌC 2026 - 2027
+            </span>
+            <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold uppercase tracking-tight leading-tight">
+                CỔNG THÔNG TIN CUỘC THI THCS
             </h2>
-            <p class="text-sm md:text-lg text-blue-100 max-w-2xl font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                Cổng thông tin và đăng ký các cuộc thi, sân chơi học thuật, nghệ thuật, công nghệ dành riêng cho học sinh cấp Trung học cơ sở (Khối 6 - 8).
+            <p class="text-sm sm:text-base text-blue-100 max-w-2xl mx-auto font-normal leading-relaxed">
+                Tổng hợp và cập nhật thông tin các kỳ thi, sân chơi học thuật, nghệ thuật, thể thao và công nghệ dành riêng cho học sinh Khối 6 – 9 Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng.
             </p>
         </div>
     </section>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="mb-12 bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-            <h3 class="text-lg font-extrabold text-fpt-blue mb-4 flex items-center gap-2">📅 Tra cứu cuộc thi đang diễn ra theo Tháng</h3>
-            <div class="flex flex-wrap gap-2" id="timelineFilter">
-                <button onclick="filterByMonth(null)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-fpt-blue text-white transition-colors">Tất cả</button>
-                <button onclick="filterByMonth(8)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 8</button>
-                <button onclick="filterByMonth(9)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 9</button>
-                <button onclick="filterByMonth(10)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 10</button>
-                <button onclick="filterByMonth(11)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 11</button>
-                <button onclick="filterByMonth(12)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 12</button>
-                <button onclick="filterByMonth(1)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 1 (2027)</button>
-                <button onclick="filterByMonth(2)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 2 (2027)</button>
-                <button onclick="filterByMonth(3)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 3 (2027)</button>
-                <button onclick="filterByMonth(4)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 4 (2027)</button>
-                <button onclick="filterByMonth(5)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 5 (2027)</button>
-                <button onclick="filterByMonth(6)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">Tháng 6 (2027)</button>
+    <!-- Timeline Filter Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100">
+            <div class="flex items-center gap-2 mb-3">
+                <span class="text-xs font-bold text-fpt-blue uppercase tracking-wider flex items-center gap-1.5">
+                    <span>📅</span> LỊCH TRÌNH THEO THÁNG
+                </span>
+            </div>
+            <div class="flex flex-wrap gap-2" id="timelineContainer">
+                <button onclick="filterByMonth(null)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-fpt-blue text-white transition-colors duration-200 shadow-sm">Tất cả</button>
+                <button onclick="filterByMonth(8)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 8</button>
+                <button onclick="filterByMonth(9)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 9</button>
+                <button onclick="filterByMonth(10)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 10</button>
+                <button onclick="filterByMonth(11)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 11</button>
+                <button onclick="filterByMonth(12)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 12</button>
+                <button onclick="filterByMonth(1)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 1</button>
+                <button onclick="filterByMonth(2)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 2</button>
+                <button onclick="filterByMonth(3)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 3</button>
+                <button onclick="filterByMonth(4)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 4</button>
+                <button onclick="filterByMonth(5)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 5</button>
+                <button onclick="filterByMonth(6)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 6</button>
+                <button onclick="filterByMonth(7)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 7</button>
             </div>
         </div>
+    </section>
 
-        <div class="text-center mb-10">
-            <h3 class="text-2xl md:text-3xl font-extrabold text-fpt-blue uppercase">DANH SÁCH CUỘC THI CẤP THCS</h3>
-            <div class="h-1.5 w-24 bg-fpt-orange mx-auto mt-3 rounded-full"></div>
+    <!-- Competition Grid Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+        <div id="competitionGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Rendered by JavaScript -->
         </div>
-        
-        <div id="competitionGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
     <!-- Footer -->
-    <footer id="footer" class="bg-fpt-blue text-white py-12 border-t-4 border-fpt-orange">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center space-y-6">
+    <footer class="bg-white border-t border-gray-100 py-8 px-4 sm:px-6 lg:px-8 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
             <div>
-                <h4 class="text-xl font-bold mb-2">Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng</h4>
-                <p class="text-sm text-blue-100 max-w-2xl mx-auto mb-1">📍 Địa chỉ: Đang cập nhật</p>
-                <p class="text-sm text-blue-100">📧 Email liên hệ: Đang cập nhật</p>
+                <h3 class="font-bold text-fpt-blue text-sm uppercase">Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng</h3>
+                <p class="text-xs text-gray-500 mt-1">Cổng thông tin Cuộc thi THCS © 2026 - 2027. Bản quyền thuộc Hệ thống Giáo dục FPT.</p>
+            </div>
+            <div class="text-xs text-gray-400">
+                <span>Tôn trọng cá nhân – Khuyến khích đổi mới – Đồng hành phát triển</span>
             </div>
         </div>
     </footer>
@@ -121,22 +158,19 @@
     <!-- Modal Chi tiết -->
     <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex justify-center items-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-3xl w-full max-w-3xl p-6 relative transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col shadow-2xl" id="detailContent">
-            <button onclick="closeModal('detailModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
+            <button onclick="closeModal('detailModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700" aria-label="Đóng">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
-            <h3 id="modalTitle" class="text-2xl font-bold text-fpt-blue mb-4 pr-6 shrink-0 uppercase">Tên cuộc thi</h3>
-            <div class="overflow-y-auto pr-2 flex-grow">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-gray-50 p-4 rounded-xl mb-6">
-                    <div><span class="block text-xs text-gray-500 font-semibold">THỜI GIAN</span><span id="modalTime" class="text-sm font-bold text-fpt-orange">...</span></div>
-                    <div><span class="block text-xs text-gray-500 font-semibold">ĐỐI TƯỢNG</span><span id="modalTarget" class="text-sm font-bold text-gray-800">...</span></div>
-                    <div><span class="block text-xs text-gray-500 font-semibold">CẤP ĐỘ</span><span id="modalLevel" class="text-sm font-bold text-gray-800">...</span></div>
-                    <div><span class="block text-xs text-gray-500 font-semibold">LỆ PHÍ</span><span id="modalFee" class="text-sm font-bold text-red-600">...</span></div>
-                </div>
-                <div id="modalDesc" class="text-gray-700 text-sm leading-relaxed modal-body"></div>
+            <h3 id="modalTitle" class="text-2xl font-bold text-fpt-blue mb-4 pr-8 shrink-0 uppercase">Tên cuộc thi</h3>
+            <div class="overflow-y-auto pr-2 flex-grow space-y-6" id="modalBody">
+                <!-- Nội dung chi tiết được tạo tự động bởi JavaScript -->
             </div>
-            <div class="mt-6 pt-4 border-t flex gap-3 shrink-0">
-                <button onclick="closeModal('detailModal')" class="flex-1 bg-gray-100 text-gray-700 px-4 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors">Đóng</button>
-                <button id="modalBtnRegister" class="flex-1 bg-fpt-blue text-white px-4 py-3 rounded-xl font-semibold hover:bg-blue-800 transition-colors">Đăng ký ngay</button>
+            <div class="mt-6 pt-4 border-t flex flex-wrap gap-3 shrink-0" id="modalActions">
+                <button onclick="closeModal('detailModal')" class="flex-1 min-w-[100px] bg-gray-100 text-gray-700 px-4 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors">Đóng</button>
+                <a id="modalOfficialLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden flex-1 min-w-[200px] bg-amber-500 text-white px-4 py-3 rounded-xl font-semibold hover:bg-amber-600 transition-colors text-center text-sm flex items-center justify-center gap-1.5">
+                    <span>🌐</span> Xem thông tin chính thức
+                </a>
+                <button id="modalBtnRegister" class="flex-1 min-w-[130px] bg-fpt-blue text-white px-4 py-3 rounded-xl font-semibold hover:bg-blue-800 transition-colors">Đăng ký ngay</button>
             </div>
         </div>
     </div>
@@ -144,27 +178,28 @@
     <!-- Modal Form Đăng ký -->
     <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex justify-center items-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-white rounded-3xl w-full max-w-md p-6 relative transform scale-95 transition-transform duration-300 shadow-2xl" id="registerContent">
-            <button onclick="closeModal('registerModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
+            <button onclick="closeModal('registerModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700" aria-label="Đóng">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
             <h3 class="text-2xl font-bold text-fpt-blue mb-6">Đăng ký tham gia</h3>
             <form id="registrationForm" onsubmit="submitForm(event)">
                 <div class="space-y-4">
-                    <div><label class="block text-sm font-medium text-gray-700 mb-1">Cuộc thi</label><input type="text" id="regCompetition" name="competitionName" readonly class="w-full bg-gray-50 border border-gray-300 text-gray-600 rounded-xl px-4 py-2.5 focus:outline-none"></div>
-                    <div><label class="block text-sm font-medium text-gray-700 mb-1">Họ và tên học sinh <span class="text-red-500">*</span></label><input type="text" name="studentName" required placeholder="Nhập họ tên..." class="w-full border border-gray-300 rounded-xl px-4 py-2.5"></div>
-                    <div><label class="block text-sm font-medium text-gray-700 mb-1">Lớp <span class="text-red-500">*</span></label>
-                        <select name="studentClass" required class="w-full border border-gray-300 rounded-xl px-4 py-2.5 bg-white">
-                            <option value="">-- Chọn Lớp --</option>
-                            <option value="6A1">Lớp 6A1</option>
-                            <option value="6A2">Lớp 6A2</option>
-                            <option value="7A1">Lớp 7A1</option>
-                            <option value="7A2">Lớp 7A2</option>
-                            <option value="7A3">Lớp 7A3</option>
-                            <option value="8A1">Lớp 8A1</option>
-                            <option value="8A2">Lớp 8A2</option>
-                        </select>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Cuộc thi</label>
+                        <input type="text" id="regCompetition" readonly class="w-full bg-gray-100 border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-800">
                     </div>
-                    <div><label class="block text-sm font-medium text-gray-700 mb-1">SĐT phụ huynh <span class="text-red-500">*</span></label><input type="tel" name="parentPhone" required placeholder="Nhập số điện thoại..." pattern="[0-9]{10,11}" class="w-full border border-gray-300 rounded-xl px-4 py-2.5"></div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Họ và tên học sinh *</label>
+                        <input type="text" id="regStudentName" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-fpt-blue">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Lớp *</label>
+                        <input type="text" id="regClass" required placeholder="Ví dụ: 6A1" class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-fpt-blue">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Số điện thoại phụ huynh *</label>
+                        <input type="tel" id="regPhone" required class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:border-fpt-blue">
+                    </div>
                 </div>
                 <div class="mt-8 flex gap-3">
                     <button type="button" onclick="closeModal('registerModal')" class="flex-1 bg-gray-100 text-gray-700 px-4 py-3 rounded-xl font-semibold hover:bg-gray-200 transition-colors">Hủy</button>
@@ -174,831 +209,99 @@
         </div>
     </div>
 
+    <!-- Toast Notification -->
     <div id="toast" class="toast">Đăng ký thành công!</div>
 
+    <!-- JavaScript Application Logic -->
     <script>
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRzdLHIcNUV6kycMGh7TCq3s2fUxtnfIh28Ca2QZFpRs65cV73izNSPszwVbNOPV1stQ/exec'; 
-        const fallbackImg = 'https://images.unsplash.com/photo-1542621334-a254cf47733d?q=80&w=2070&auto=format&fit=crop';
+        // Placeholder SVG chuyên nghiệp chuẩn nhận diện thương hiệu FPT Schools
+        const FPT_PLACEHOLDER_SVG = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="fptGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#092275"/>
+      <stop offset="65%" stop-color="#0d32b2"/>
+      <stop offset="100%" stop-color="#f36f21"/>
+    </linearGradient>
+    <pattern id="dotGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.2" fill="#ffffff" fill-opacity="0.12"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#fptGrad)"/>
+  <rect width="600" height="360" fill="url(#dotGrid)"/>
+  <g transform="translate(300, 145)">
+    <circle cx="0" cy="0" r="46" fill="#ffffff" fill-opacity="0.1"/>
+    <circle cx="0" cy="0" r="34" fill="#ffffff" fill-opacity="0.15"/>
+    <path d="M-18,-10 L0,-22 L18,-10 L0,2 Z" fill="#ffffff"/>
+    <path d="M-13,-6 L-13,8 C-13,15 0,20 0,20 C0,20 13,15 13,8 L13,-6" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M18,-10 L22,-8 L22,7" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <text x="300" y="235" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="800" letter-spacing="2">FPT SCHOOLS</text>
+  <text x="300" y="260" text-anchor="middle" fill="#ffffff" fill-opacity="0.85" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="500">CỔNG THÔNG TIN CUỘC THI THCS</text>
+</svg>
+`);
 
-        const competitions = [
-            {
-                title: "SÂN CHƠI TOÁN HỌC VIỆT NAM (VNMF)", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 8/2026 - Tháng 6/2027", 
-                level: "Quốc gia", 
-                fee: "Miễn phí", 
-                subject: "Toán học",
-                activeMonths: [8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/images%20(3).jpg",
-                desc: `<p>– Chinh phục đỉnh cao, tự hào trí tuệ Toán học! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Sân chơi Toán học Việt Nam (VNMF) là một hoạt động học thuật dành cho học sinh yêu thích môn Toán, giúp các em tiếp cận những bài toán mang tính khám phá, tư duy và vận dụng thay vì chỉ tập trung vào kỹ năng tính toán. Đây là cơ hội để học sinh rèn luyện khả năng suy luận logic, phát triển niềm yêu thích Toán học và xây dựng sự tự tin khi tham gia các sân chơi học thuật quy mô lớn.</p>
-                <p>Thông qua VNMF, học sinh được khuyến khích tìm tòi nhiều cách giải khác nhau cho cùng một vấn đề, từ đó hình thành tư duy linh hoạt và sáng tạo trong học tập.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển tư duy logic và khả năng suy luận.</li>
-                    <li>Rèn luyện kỹ năng phân tích và giải quyết vấn đề.</li>
-                    <li>Bồi dưỡng niềm yêu thích môn Toán và tư duy sáng tạo.</li>
-                    <li>Làm quen với môi trường thi đấu học thuật cấp quốc gia.</li>
-                    <li>Giá trị từ BTC: Chứng nhận tham gia, Huy chương, Quà tặng.</li>
-                </ul>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Toán học không chỉ là những con số mà còn là công cụ giúp học sinh phát triển tư duy. VNMF tạo cơ hội để các em tiếp cận Toán học theo hướng khám phá và trải nghiệm, từ đó hình thành khả năng suy luận, tư duy phản biện và kỹ năng giải quyết vấn đề – những năng lực cần thiết trong mọi lĩnh vực học tập và cuộc sống.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Quý Phụ huynh hãy động viên con mạnh dạn thử sức, ghi nhận sự cố gắng và quá trình học tập của các em. Mỗi bài toán được giải quyết là một bước tiến trong hành trình phát triển tư duy của học sinh.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi bài toán là một thử thách, và mỗi thử thách là cơ hội để tư duy trưởng thành. 💙</p>`
-            },
-            {
-                title: "OXFORD BIG READ", 
-                target: "Khối 6 - 8", 
-                time: "31/08/2026 - 31/10/2026", 
-                level: "Quốc gia – Quốc tế", 
-                fee: "Miễn phí", 
-                subject: "Tiếng Anh",
-                activeMonths: [8, 9, 10],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/vn-big-read.png",
-                desc: `<p>– Mở trang sách, khám phá chân trời thế giới! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Oxford Big Read là cuộc thi đọc sách tiếng Anh do Nhà xuất bản Oxford University Press tổ chức. Cuộc thi khuyến khích học sinh hình thành thói quen đọc sách bằng tiếng Anh, phát triển khả năng đọc hiểu và thể hiện sự sáng tạo thông qua các sản phẩm học tập như tranh minh họa, bài viết hoặc video giới thiệu sách.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Hình thành văn hóa đọc bằng tiếng Anh.</li>
-                    <li>Nâng cao khả năng đọc hiểu và tư duy phân tích.</li>
-                    <li>Phát triển năng lực sáng tạo và kỹ năng trình bày ý tưởng.</li>
-                    <li>Mở rộng hiểu biết về thế giới thông qua sách.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: 31/08/2026 - 31/10/2026</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Quốc gia – Quốc tế</li>
-                    <li>Ngôn ngữ: Tiếng Anh</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Chứng nhận tham gia, Giải thưởng cấp quốc gia, Cơ hội giao lưu quốc tế.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi cuốn sách là một cánh cửa mở ra những chân trời tri thức mới. 💙</p>`
-            },
-            {
-                title: "KHƠI NGUỒN VÕ VIỆT", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 8 - Tháng 10/2026", 
-                level: "FE", 
-                fee: "Miễn phí", 
-                subject: "Vovinam",
-                activeMonths: [8, 9, 10],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/maxresdefault.jpg",
-                desc: `<p>– Rèn luyện thể chất, bừng sáng tinh thần võ đạo! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Khơi nguồn Võ Việt là sân chơi giúp học sinh tìm hiểu và trải nghiệm những giá trị truyền thống của võ học Việt Nam. Cuộc thi góp phần giáo dục tinh thần thượng võ, ý thức rèn luyện sức khỏe, lòng tự hào dân tộc và những phẩm chất tích cực trong học tập và cuộc sống.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Rèn luyện sức khỏe và thể lực.</li>
-                    <li>Hình thành tính kỷ luật và ý chí.</li>
-                    <li>Bồi dưỡng lòng tự hào dân tộc.</li>
-                    <li>Phát triển khả năng tập trung.</li>
-                    <li>Rèn luyện tinh thần tôn trọng và fair-play.</li>
-                    <li>Tăng sự tự tin trong học tập và sinh hoạt.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 8/2026 - Tháng 10/2026</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: FE</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Giấy chứng nhận, Huy chương, Kỷ niệm chương.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Bên cạnh kiến thức học thuật, nhà trường mong muốn học sinh phát triển toàn diện về thể chất và tinh thần. Võ học không chỉ giúp các em khỏe mạnh hơn mà còn rèn luyện ý chí, sự kiên trì và tinh thần vượt khó.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Phụ huynh hãy động viên con tham gia các hoạt động thể chất và trải nghiệm văn hóa truyền thống. Những trải nghiệm này sẽ góp phần hình thành lối sống tích cực và cân bằng cho học sinh.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Khỏe để học tập – Mạnh mẽ để trưởng thành – Tự hào bản sắc Việt Nam. 💙</p>`
-            },
-            {
-                title: "KỲ THI THÁCH THỨC TƯ DUY THUẬT TOÁN BEBRAS", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 10 - Tháng 11/2026", 
-                level: "Quốc gia", 
-                fee: "400.000 VNĐ / học sinh", 
-                subject: "Toán học",
-                activeMonths: [10, 11],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/542756468_1462930321857327_7016608410102822375_n.png",
-                desc: `<p>– Khơi dậy tiềm năng toán học, kiến tạo tư duy tương lai! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Bebras là cuộc thi tư duy thuật toán quốc tế nổi tiếng, được tổ chức tại nhiều quốc gia trên thế giới. Cuộc thi không yêu cầu học sinh phải biết lập trình mà tập trung phát triển tư duy máy tính (Computational Thinking) - một trong những năng lực cốt lõi của công dân số trong thế kỷ 21.</p>
-                <p>Thông qua các câu hỏi và tình huống thực tiễn, học sinh học cách phân tích vấn đề, nhận diện quy luật và xây dựng các bước giải quyết một cách logic.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển tư duy thuật toán.</li>
-                    <li>Rèn luyện khả năng giải quyết vấn đề.</li>
-                    <li>Học cách phân tích và xử lý thông tin.</li>
-                    <li>Làm quen với tư duy khoa học máy tính.</li>
-                    <li>Chuẩn bị nền tảng cho việc học công nghệ và lập trình.</li>
-                    <li>Tiếp cận sân chơi học thuật quốc tế.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 10-11/2026</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Quốc gia</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: 400.000 đồng/thí sinh</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Cúp vô địch, Huy chương, Giấy chứng nhận, Học bổng.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Trong thời đại công nghệ số, khả năng tư duy logic và giải quyết vấn đề ngày càng quan trọng. Bebras giúp học sinh phát triển những năng lực này thông qua các thử thách hấp dẫn, phù hợp với lứa tuổi và có tính ứng dụng cao trong học tập cũng như cuộc sống.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Hãy khuyến khích con xem mỗi câu hỏi là một cơ hội khám phá cách tư duy mới. Điều quan trọng không phải là trả lời đúng tất cả mà là học được cách suy nghĩ và giải quyết vấn đề một cách khoa học.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Tư duy đúng chính là nền tảng để tạo nên những giải pháp lớn trong tương lai. 💙</p>`
-            },
-            {
-                title: "STEMPETITION CẤP TRƯỜNG", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 11/2026", 
-                level: "FE", 
-                fee: "Miễn phí", 
-                subject: "STEM",
-                activeMonths: [11],
-                image: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/593481004_122160546656748162_6655271646800699809_n.jpg?stp=dst-jpg_tt6&cstp=mx2048x1365&ctp=s2048x1365&_nc_cat=105&ccb=1-7&_nc_sid=f727a1&_nc_ohc=FEZ2vN1mHIoQ7kNvwFr2ERx&_nc_oc=Adrrd2YO55z0vPLN3yo6aHMJTPtgQMO3NxzWhRnx4MFyefljIUGHkWke0NCpeV4V2vo&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=Cnwv_09OPmIrfYpAkuXlkA&_nc_ss=7b289&oh=00_AQGLBad2XtiXjWc5eg8yc9z2tOUQKYvnl-ifIYvSPFG8HQ&oe=6A914255",
-                desc: `<p>– Sáng tạo khoa học, kiến tạo tương lai! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>STEMPETITION là sân chơi STEM dành cho học sinh yêu thích sáng tạo, khám phá và ứng dụng kiến thức vào thực tiễn. Cuộc thi tạo cơ hội để học sinh vận dụng kiến thức liên môn như Khoa học, Công nghệ, Kỹ thuật và Toán học để giải quyết các vấn đề thực tế thông qua những sản phẩm hoặc dự án sáng tạo.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển tư duy giải quyết vấn đề.</li>
-                    <li>Khơi dậy khả năng sáng tạo.</li>
-                    <li>Vận dụng kiến thức STEM vào thực tiễn.</li>
-                    <li>Rèn luyện kỹ năng làm việc nhóm.</li>
-                    <li>Nâng cao kỹ năng thuyết trình và bảo vệ ý tưởng.</li>
-                    <li>Tăng sự tự tin khi tham gia các sân chơi khoa học công nghệ.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 11/2026</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: FE</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Chứng nhận, Tiền thưởng.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi ý tưởng sáng tạo hôm nay có thể trở thành giải pháp cho tương lai. 💙</p>`
-            },
-            {
-                title: "IOE - OLYMPIC TIẾNG ANH TRÊN INTERNET", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 9/2026 - Tháng 5/2027", 
-                level: "Quốc gia", 
-                fee: "Miễn phí", 
-                subject: "Tiếng Anh",
-                activeMonths: [9, 10, 11, 12, 1, 2, 3, 4, 5],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/593040040_122159657180748162_3016778823820721654_n.jpg",
-                desc: `<p>– Tự tin giao tiếp, vươn tầm công dân toàn cầu! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>IOE là sân chơi tiếng Anh trực tuyến giúp học sinh rèn luyện ngoại ngữ thông qua các vòng tự luyện và thi chính thức. Cuộc thi khuyến khích học sinh hình thành thói quen tự học, chủ động khám phá kiến thức và phát triển năng lực tiếng Anh bền vững.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển kỹ năng tiếng Anh toàn diện.</li>
-                    <li>Làm quen với môi trường học tập trực tuyến.</li>
-                    <li>Hình thành thói quen tự học.</li>
-                    <li>Mở rộng vốn từ và kiến thức ngôn ngữ.</li>
-                    <li>Tăng động lực học tập thông qua các vòng thi.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 9/2026 - Tháng 6/2027</li>
-                    <li>Đối tượng: Khối 6-8</li>
-                    <li>Cấp độ: Quốc gia</li>
-                    <li>Ngôn ngữ: Tiếng Anh</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Sự tiến bộ mỗi ngày chính là thành công lớn nhất trên hành trình học ngoại ngữ. 💙</p>`
-            },
-            {
-                title: "GELOSEA", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 9 - Tháng 11/2026", 
-                level: "Quốc gia – Quốc tế", 
-                fee: "550.000 VNĐ / học sinh", 
-                subject: "Tiếng Anh",
-                activeMonths: [9, 10, 11],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/image.jpg",
-                desc: `<p>– Tỏa sáng tài năng, chinh phục ngôn ngữ quốc tế! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>GELOSEA là sân chơi tiếng Anh quốc tế dành cho học sinh mong muốn thử sức với các chuẩn đánh giá năng lực ngoại ngữ quốc tế. Cuộc thi giúp học sinh mở rộng trải nghiệm học tập và tự tin hội nhập.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Trải nghiệm sân chơi quốc tế.</li>
-                    <li>Nâng cao năng lực tiếng Anh.</li>
-                    <li>Phát triển tư duy học thuật.</li>
-                    <li>Có cơ hội đạt huy chương và chứng nhận.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 9-11/2026</li>
-                    <li>Đối tượng: Khối 6 – 8</li>
-                    <li>Cấp độ: Quốc gia – Quốc tế</li>
-                    <li>Ngôn ngữ: Tiếng Anh</li>
-                    <li>Lệ phí tham gia: 550.000 đồng/thí sinh</li>
-                </ul>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi thử thách quốc tế là cơ hội để các em tự tin bước ra thế giới. 💙</p>`
-            },
-            {
-                title: "ECO RUNWAY CULTURE", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 10/2026", 
-                level: "Trường", 
-                fee: "Miễn phí", 
-                subject: "Văn hóa & Thời trang",
-                activeMonths: [10],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/542756468%201462930321857327%207016608410102822375%20n.png",
-                desc: `<p>– Thời trang xanh – Kết nối văn hóa toàn cầu! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Eco Runway Culture là sân chơi kết hợp giữa văn hóa, nghệ thuật, thời trang và bảo vệ môi trường dành cho học sinh. Cuộc thi khuyến khích các em tìm hiểu về văn hóa các quốc gia, sáng tạo trang phục từ vật liệu tái chế và trình bày ý tưởng bằng tiếng Anh.</p>
-                <p>Không chỉ là một cuộc thi trình diễn thời trang, Eco Runway Culture còn là cơ hội để học sinh phát triển nhận thức về môi trường, khám phá sự đa dạng văn hóa và nâng cao kỹ năng giao tiếp quốc tế.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Tìm hiểu văn hóa các quốc gia trên thế giới.</li>
-                    <li>Nâng cao ý thức bảo vệ môi trường.</li>
-                    <li>Phát triển khả năng sáng tạo nghệ thuật.</li>
-                    <li>Rèn luyện kỹ năng thuyết trình bằng tiếng Anh.</li>
-                    <li>Tăng cường kỹ năng làm việc nhóm.</li>
-                    <li>Học cách biến những ý tưởng đơn giản thành sản phẩm ý nghĩa.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 9-10/2026</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: FE</li>
-                    <li>Ngôn ngữ: Tiếng Anh</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Giấy chứng nhận, Giải thưởng sáng tạo, Quà tặng từ Ban Tổ chức.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Eco Runway Culture giúp học sinh học tập thông qua trải nghiệm thực tế. Các em không chỉ được tìm hiểu về văn hóa và môi trường mà còn được thực hành kỹ năng sáng tạo, hợp tác và giao tiếp – những năng lực quan trọng trong thế kỷ 21.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Quý Phụ huynh có thể hỗ trợ con tìm kiếm ý tưởng, chuẩn bị vật liệu tái chế và khuyến khích các em mạnh dạn thể hiện cá tính sáng tạo. Sự đồng hành của gia đình sẽ giúp hành trình trải nghiệm của các em trở nên ý nghĩa hơn.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Sáng tạo hôm nay – Chung tay xây dựng một tương lai xanh hơn ngày mai. 💙</p>`
-            },
-            {
-                title: "ROBOT VEX IQ TOÀN QUỐC", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 9/2026 - Tháng 2/2027", 
-                level: "Quốc gia – Quốc tế", 
-                fee: "Miễn phí", 
-                subject: "STEM / Robotics",
-                activeMonths: [9, 10, 11, 12, 1, 2],
-                image: "https://hanam-school.fpt.edu.vn/wp-content/uploads/3-14.jpg",
-                desc: `<p>– Lắp ráp đam mê, điều khiển công nghệ tương lai! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>VEX IQ là giải đấu Robotics quốc tế dành cho học sinh yêu thích công nghệ, kỹ thuật và lập trình. Cuộc thi giúp học sinh trải nghiệm quy trình thiết kế, chế tạo và điều khiển robot trong môi trường thi đấu chuyên nghiệp, từ đó phát triển tư duy kỹ thuật và kỹ năng làm việc nhóm.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Hiểu nguyên lý thiết kế, vận hành robot.</li>
-                    <li>Làm quen với lập trình điều khiển.</li>
-                    <li>Phát triển tư duy kỹ thuật.</li>
-                    <li>Rèn luyện kỹ năng hợp tác.</li>
-                    <li>Trải nghiệm môi trường thi đấu quốc tế.</li>
-                    <li>Giao lưu với học sinh có cùng đam mê công nghệ.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 9/2026 - Tháng 2/2027</li>
-                    <li>Đối tượng: Học sinh khối 6 – 8</li>
-                    <li>Cấp độ: Quốc gia – Quốc tế</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Huy chương, Chứng nhận, Cơ hội giao lưu quốc tế.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Robot không chỉ là công nghệ, mà còn là công cụ để học sinh sáng tạo và chinh phục thử thách. 💙</p>`
-            },
-            {
-                title: "LIGHT UP", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 10 - Tháng 12/2026", 
-                level: "FE", 
-                fee: "Miễn phí", 
-                subject: "Tiếng Anh",
-                activeMonths: [10, 11, 12],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/images%20(1).jpg",
-                desc: `<p>– Tỏa sáng năng khiếu, bứt phá tự tin! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Light Up là sân chơi nghệ thuật bằng tiếng Anh giúp học sinh phát huy năng khiếu, sự tự tin và khả năng biểu diễn. Đây là cơ hội để các em vừa sử dụng tiếng Anh trong thực tế, vừa phát triển kỹ năng hợp tác và sáng tạo.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển năng khiếu nghệ thuật.</li>
-                    <li>Tăng sự tự tin trên sân khấu.</li>
-                    <li>Cải thiện phát âm và giao tiếp tiếng Anh.</li>
-                    <li>Học cách phối hợp và làm việc nhóm.</li>
-                    <li>Trải nghiệm môi trường thi ứng dụng công nghệ số.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 10 - 12/2026</li>
-                    <li>Đối tượng: Khối 6-8</li>
-                    <li>Cấp độ: FE</li>
-                    <li>Ngôn ngữ: Tiếng Anh</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi học sinh đều có một ánh sáng riêng để tỏa sáng theo cách của mình. 💙</p>`
-            },
-            {
-                title: "NEO SCIENCE OLYMPIAD (NEO)", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 1 - Tháng 4/2027", 
-                level: "Quốc gia – Quốc tế", 
-                fee: "Theo quy định BTC / học sinh", 
-                subject: "Khoa học tự nhiên",
-                activeMonths: [1, 2, 3, 4],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/neo.jpg",
-                desc: `<p>– Mọi phát minh lớn đều bắt đầu từ câu hỏi nhỏ! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Neo Science Olympiad (NEO) là kỳ thi Khoa học quốc tế dành cho học sinh yêu thích khám phá thế giới tự nhiên và các hiện tượng khoa học. Cuộc thi được thiết kế nhằm đánh giá khả năng vận dụng kiến thức khoa học vào thực tiễn, khuyến khích học sinh tư duy phản biện, giải quyết vấn đề và phát triển năng lực nghiên cứu khoa học.</p>
-                <p>Khác với các bài kiểm tra kiến thức thông thường, NEO tập trung vào khả năng phân tích, suy luận và ứng dụng kiến thức liên môn để giải quyết các tình huống thực tế. Đây là cơ hội để học sinh tiếp cận chuẩn đánh giá quốc tế và nâng cao niềm yêu thích đối với khoa học.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Mở rộng hiểu biết về Khoa học tự nhiên.</li>
-                    <li>Phát triển tư duy phân tích và phản biện.</li>
-                    <li>Rèn luyện kỹ năng giải quyết vấn đề thực tiễn.</li>
-                    <li>Tiếp cận môi trường học thuật quốc tế.</li>
-                    <li>Nâng cao khả năng vận dụng kiến thức liên môn.</li>
-                    <li>Có cơ hội nhận huy chương và chứng nhận quốc tế.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian dự kiến: Vòng loại: Tháng 01 – 02/2027 | Vòng quốc gia: Tháng 03 - 04/2027</li>
-                    <li>Đối tượng: Học sinh khối 6 – 8 yêu thích Khoa học</li>
-                    <li>Cấp độ: Quốc gia – Quốc tế</li>
-                    <li>Ngôn ngữ: Tiếng Anh hoặc song ngữ</li>
-                    <li>Lệ phí tham gia: Theo quy định của Ban Tổ chức từng năm</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Huy chương Vàng - Bạc - Đồng, Chứng nhận quốc tế, Cơ hội tham gia vòng quốc tế, Hồ sơ học tập nổi bật cho các chương trình học thuật quốc tế.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mọi phát minh lớn đều bắt đầu từ một câu hỏi nhỏ. 💙</p>`
-            },
-            {
-                title: "CUỘC THI SÁNG TÁC THƠ 'THIÊN THANH'", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 12/2026", 
-                level: "FE", 
-                fee: "Miễn phí", 
-                subject: "Ngữ văn",
-                activeMonths: [12],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/763980639_122188206254748162_6844953406704635826_n.jpg",
-                desc: `<p>– Gửi gắm cảm xúc qua những vần thơ! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Thiên Thanh là sân chơi dành cho những học sinh yêu thích văn học, thơ ca và sáng tạo ngôn ngữ. Cuộc thi tạo cơ hội để các em thể hiện cảm xúc, suy nghĩ và góc nhìn của mình về cuộc sống thông qua các tác phẩm văn học nghệ thuật.</p>
-                <p>Đây là môi trường giúp học sinh phát triển tâm hồn, khả năng cảm thụ văn học và nuôi dưỡng tình yêu đối với tiếng Việt.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển khả năng sáng tác.</li>
-                    <li>Nâng cao năng lực sử dụng ngôn ngữ.</li>
-                    <li>Bồi dưỡng cảm xúc và tâm hồn.</li>
-                    <li>Khơi dậy trí tưởng tượng và sáng tạo.</li>
-                    <li>Rèn luyện tư duy diễn đạt.</li>
-                    <li>Tăng sự tự tin khi chia sẻ tác phẩm cá nhân.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 12/2026</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: FE</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Giấy chứng nhận, Giải thưởng sáng tác, Tuyển chọn tác phẩm tiêu biểu.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Ngôn ngữ và văn học giúp học sinh phát triển khả năng tư duy, cảm xúc và nhân cách. Thông qua Thiên Thanh, các em được khuyến khích bày tỏ suy nghĩ của bản thân, nuôi dưỡng tâm hồn đẹp và phát triển năng lực ngôn ngữ.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Quý Phụ huynh hãy tạo điều kiện để con đọc sách, quan sát cuộc sống và chia sẻ cảm xúc của mình. Mỗi câu chuyện, bài thơ hay trang viết đều là dấu ấn của sự trưởng thành.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi trang viết là một hành trình khám phá thế giới và chính bản thân mình. 💙</p>`
-            },
-            {
-                title: "VIẾT THƯ QUỐC TẾ UPU", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 12/2026 - Tháng 3/2027", 
-                level: "Quốc gia – Quốc tế", 
-                fee: "Miễn phí", 
-                subject: "Ngôn ngữ / Xã hội",
-                activeMonths: [12, 1, 2, 3],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/0e492625-4da8-4cb6-94d0-d010f2208078.jpg",
-                desc: `<p>– Kết nối những trái tim qua từng trang thư! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Cuộc thi Viết thư Quốc tế UPU khuyến khích học sinh bày tỏ suy nghĩ, cảm xúc và quan điểm của mình về những vấn đề mang ý nghĩa xã hội, nhân văn và toàn cầu thông qua hình thức viết thư.</p>
-                <p>Không chỉ là một cuộc thi viết, UPU còn là cơ hội để học sinh phát triển khả năng ngôn ngữ, tư duy phản biện, sự đồng cảm và trách nhiệm với cộng đồng. Thông qua mỗi bức thư, các em được thể hiện tiếng nói của thế hệ trẻ trước những vấn đề của cuộc sống và thế giới xung quanh.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Rèn luyện kỹ năng viết và diễn đạt ý tưởng.</li>
-                    <li>Phát triển tư duy phản biện và lập luận.</li>
-                    <li>Học cách bày tỏ cảm xúc và quan điểm cá nhân.</li>
-                    <li>Nâng cao nhận thức về các vấn đề toàn cầu.</li>
-                    <li>Bồi dưỡng sự đồng cảm và trách nhiệm xã hội.</li>
-                    <li>Phát triển vốn từ và kỹ năng sử dụng ngôn ngữ.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 12/2026 – Tháng 3/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Quốc gia – Quốc tế</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Giấy chứng nhận, Bằng khen, Giải thưởng cấp quốc gia, Cơ hội tham gia vòng quốc tế.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Trong thời đại hội nhập, khả năng diễn đạt suy nghĩ bằng ngôn ngữ viết là một năng lực rất quan trọng. Cuộc thi UPU giúp học sinh rèn luyện khả năng viết, đồng thời phát triển tư duy công dân toàn cầu, biết quan tâm đến những vấn đề của cộng đồng và xã hội.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Quý Phụ huynh hãy khuyến khích con đọc thêm sách, tìm hiểu các vấn đề xã hội và mạnh dạn thể hiện quan điểm của mình. Một bức thư hay không chỉ thể hiện kỹ năng viết mà còn phản ánh suy nghĩ và trái tim của người viết.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi lá thư là một thông điệp yêu thương, kết nối những trái tim trên khắp thế giới. 💙</p>`
-            },
-            {
-                title: "FANROC CẤP KHU VỰC & TOÀN QUỐC", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 1 - Tháng 3/2027", 
-                level: "FE / Toàn quốc", 
-                fee: "Miễn phí", 
-                subject: "STEM / Robotics",
-                activeMonths: [1, 2, 3],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/fanroc.jpg",
-                desc: `<p>– Bản lĩnh chiến đấu trong thế giới robot! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>FANROC là sân chơi Robotics dành cho học sinh đam mê kỹ thuật và công nghệ. Cuộc thi tạo cơ hội để học sinh vận dụng kiến thức STEM, lập trình và điều khiển robot nhằm giải quyết các nhiệm vụ thực tiễn trong môi trường thi đấu đối kháng.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Nâng cao kỹ năng lập trình robot.</li>
-                    <li>Phát triển tư duy chiến lược.</li>
-                    <li>Rèn luyện khả năng xử lý tình huống.</li>
-                    <li>Học cách phối hợp trong đội nhóm.</li>
-                    <li>Tăng bản lĩnh thi đấu.</li>
-                    <li>Trải nghiệm các giải Robotics chuyên nghiệp.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 1-3/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: FE</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Chứng nhận, Học bổng, Tiền thưởng.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi trận đấu robot là cơ hội để học sinh học cách tư duy, hợp tác và vượt qua thử thách. 💙</p>`
-            },
-            {
-                title: "TRẠNG F CẤP TRƯỜNG", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 1/2027", 
-                level: "Trường", 
-                fee: "Miễn phí", 
-                subject: "Tổng hợp",
-                activeMonths: [1],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/images%20(7).jpg",
-                desc: `<p>– Tự tin khoe trí, vinh danh sĩ tử tài ba! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Trạng F là sân chơi học thuật đặc trưng của FPT Schools, nơi học sinh được thử sức với những câu hỏi và thử thách liên môn, đòi hỏi khả năng vận dụng kiến thức, tư duy logic và kỹ năng trình bày. Cuộc thi được thiết kế theo hướng học mà chơi, chơi mà học, giúp học sinh tiếp cận kiến thức một cách sinh động và hấp dẫn.</p>
-                <p>Đây là cơ hội để các em thể hiện sự hiểu biết, khả năng ứng biến và bản lĩnh trước tập thể trong môi trường học tập tích cực.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Củng cố và mở rộng kiến thức liên môn.</li>
-                    <li>Rèn luyện kỹ năng giao tiếp và thuyết trình.</li>
-                    <li>Phát triển tư duy linh hoạt và sáng tạo.</li>
-                    <li>Tăng cường kỹ năng hợp tác và làm việc nhóm.</li>
-                    <li>Xây dựng sự tự tin khi thể hiện bản thân.</li>
-                    <li>Trải nghiệm một sân chơi học thuật vui vẻ và bổ ích.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 1/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Trường</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Giấy chứng nhận, Kỷ niệm chương, Giải thưởng cấp trường.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Trạng F không chỉ là một cuộc thi kiến thức mà còn là cơ hội để học sinh phát triển sự tự tin, khả năng phản xạ và kỹ năng giao tiếp. Đây là những năng lực quan trọng giúp các em học tập hiệu quả và thích nghi với môi trường học tập hiện đại.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Hãy động viên con tham gia với tâm thế trải nghiệm và khám phá. Mỗi lần mạnh dạn trả lời một câu hỏi, đứng trước đám đông hay trình bày ý tưởng đều là những bước tiến quan trọng trong quá trình trưởng thành của các em.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Tri thức sẽ trở nên ý nghĩa hơn khi các em tự tin chia sẻ và lan tỏa nó đến mọi người. 💙</p>`
-            },
-            {
-                title: "CUỘC THI VẼ TRANH: NGÀY TẾT QUÊ EM", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 1/2027", 
-                level: "Thành phố", 
-                fee: "Miễn phí", 
-                subject: "Mỹ thuật",
-                activeMonths: [1],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/images%20(8).jpg",
-                desc: `<p>– Sắc màu tuổi thơ, hướng về Tết cổ truyền! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Ngày Tết Quê Em là cuộc thi mỹ thuật dành cho học sinh yêu thích hội họa và văn hóa truyền thống Việt Nam. Thông qua những bức tranh sáng tạo, các em thể hiện cảm nhận về ngày Tết cổ truyền, gia đình, quê hương và những giá trị văn hóa dân tộc.</p>
-                <p>Cuộc thi góp phần giáo dục tình yêu quê hương đất nước, đồng thời khuyến khích học sinh phát triển năng khiếu nghệ thuật và khả năng quan sát cuộc sống.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển khả năng hội họa, sáng tạo và tư duy thẩm mỹ.</li>
-                    <li>Tìm hiểu văn hóa truyền thống Việt Nam và bồi dưỡng tình yêu quê hương.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 1/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Thành phố</li>
-                    <li>Ngôn ngữ: Không áp dụng</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Giấy chứng nhận, Huy chương, Triển lãm tranh tiêu biểu.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Nghệ thuật là một phần quan trọng trong giáo dục toàn diện. Thông qua hội họa, học sinh được phát triển khả năng sáng tạo, cảm xúc thẩm mỹ và hiểu hơn về các giá trị văn hóa truyền thống của dân tộc.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Hãy cùng con tìm hiểu những nét đẹp của ngày Tết Việt Nam, chia sẻ những câu chuyện gia đình và động viên các em tự tin thể hiện góc nhìn riêng qua từng nét vẽ.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi bức tranh là một câu chuyện đẹp về quê hương, gia đình và những giá trị Việt Nam. 💙</p>`
-            },
-            {
-                title: "KÌ THI TOÁN QUỐC TẾ KANGAROO (IKMC)", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 3/2027", 
-                level: "Quốc gia – Quốc tế", 
-                fee: "400.000 VNĐ / học sinh", 
-                subject: "Toán học",
-                activeMonths: [3],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/images%20(4).jpg",
-                desc: `<p>– Khơi dậy niềm đam mê Toán học toàn cầu! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Kỳ thi Toán quốc tế Kangaroo (IKMC) là một trong những sân chơi Toán học uy tín dành cho học sinh trên toàn thế giới. Cuộc thi được thiết kế nhằm khơi dậy niềm yêu thích Toán học thông qua các bài toán thực tế, sáng tạo và giàu tính khám phá.</p>
-                <p>Khác với các kỳ thi truyền thống, Kangaroo tập trung đánh giá khả năng tư duy, lập luận và vận dụng kiến thức hơn là ghi nhớ công thức.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển tư duy toán học hiện đại.</li>
-                    <li>Tiếp cận môi trường học thuật quốc tế.</li>
-                    <li>Nâng cao khả năng suy luận và sáng tạo.</li>
-                    <li>Tăng sự tự tin khi tham gia các kỳ thi lớn.</li>
-                    <li>Khơi dậy niềm yêu thích học Toán.</li>
-                    <li>Có cơ hội đạt huy chương và chứng nhận quốc tế.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 3/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Quốc gia – Quốc tế</li>
-                    <li>Ngôn ngữ: Song ngữ</li>
-                    <li>Lệ phí tham gia: 400.000 đồng/thí sinh</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Huy chương, Chứng nhận, Giao lưu quốc tế.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Kangaroo giúp học sinh nhìn nhận Toán học như một công cụ khám phá thế giới thay vì chỉ là môn học trên lớp. Thông qua các dạng bài đa dạng và sáng tạo, học sinh được rèn luyện tư duy độc lập và phát triển niềm yêu thích học tập lâu dài.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Phụ huynh hãy khuyến khích con tham gia với tâm thế trải nghiệm và học hỏi. Mỗi bài toán mới là cơ hội để các em khám phá năng lực của bản thân và xây dựng sự tự tin trong học tập.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Yêu thích Toán học hôm nay sẽ mở ra những cơ hội lớn trong tương lai. 💙</p>`
-            },
-            {
-                title: "OLYMPIC KHOA HỌC QUỐC TẾ (HKISO)", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 2 - Tháng 4/2027", 
-                level: "Quốc gia – Quốc tế", 
-                fee: "Vòng loại: 200.000đ | Vòng Quốc gia: 450.000đ / học sinh", 
-                subject: "Khoa học",
-                activeMonths: [2, 3, 4],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/images%20(5).jpg",
-                desc: `<p>– Vươn tầm khoa học quốc tế! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>HKISO là sân chơi học thuật quốc tế dành cho học sinh có niềm yêu thích với Toán học và khoa học. Cuộc thi tạo cơ hội để học sinh được thử sức trong môi trường đánh giá năng lực theo tiêu chuẩn quốc tế, đồng thời giao lưu với các bạn học sinh có cùng đam mê từ nhiều quốc gia khác nhau.</p>
-                <p>Thông qua cuộc thi, học sinh được tiếp cận những dạng bài tư duy hiện đại và mở rộng góc nhìn học thuật trong môi trường hội nhập.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Trải nghiệm sân chơi học thuật quốc tế.</li>
-                    <li>Phát triển tư duy khoa học và logic.</li>
-                    <li>Mở rộng kiến thức liên môn.</li>
-                    <li>Rèn luyện kỹ năng làm bài theo chuẩn quốc tế.</li>
-                    <li>Có cơ hội nhận huy chương và chứng nhận quốc tế.</li>
-                    <li>Tăng sự tự tin khi hội nhập.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Vòng loại: Tháng 2/2027 | Vòng quốc gia: Tháng 4/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Quốc gia – Quốc tế</li>
-                    <li>Ngôn ngữ: Song ngữ</li>
-                    <li>Lệ phí tham gia: Vòng loại: 200.000 đồng | Vòng quốc gia: 450.000 đồng</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Huy chương, Chứng nhận, Cơ hội giao lưu quốc tế.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>HKISO là cơ hội để học sinh mở rộng trải nghiệm học tập vượt ra ngoài phạm vi chương trình trên lớp. Việc tham gia sân chơi quốc tế giúp các em rèn luyện bản lĩnh, phát triển năng lực học thuật và chuẩn bị hành trang cho môi trường học tập toàn cầu trong tương lai.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Sự động viên của gia đình sẽ giúp học sinh tự tin hơn khi tham gia những thử thách mới. Hãy cùng con ghi nhận những tiến bộ trong quá trình học tập và trải nghiệm, bởi đó chính là giá trị lâu dài mà cuộc thi mang lại.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi trải nghiệm quốc tế hôm nay là một bước tiến trên hành trình hội nhập ngày mai. 💙</p>`
-            },
-            {
-                title: "OLYMPIC TIN HỌC QUỐC TẾ (HKICO)", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 2 - Tháng 4/2027", 
-                level: "Quốc gia – Quốc tế", 
-                fee: "Vòng loại: 200.000đ | Vòng Quốc gia: 450.000đ / học sinh", 
-                subject: "Tin học",
-                activeMonths: [2, 3, 4],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/hkico.jpg",
-                desc: `<p>– Sáng tạo công nghệ số, chinh phục đỉnh cao tin học! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>HKICO là cuộc thi quốc tế dành cho học sinh yêu thích Tin học và tư duy thuật toán. Cuộc thi giúp học sinh phát triển khả năng tư duy logic, giải quyết vấn đề và tiếp cận các chuẩn đánh giá quốc tế trong lĩnh vực công nghệ.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển tư duy tin học.</li>
-                    <li>Nâng cao khả năng giải quyết vấn đề.</li>
-                    <li>Rèn luyện kỹ năng phân tích dữ liệu.</li>
-                    <li>Tiếp cận sân chơi quốc tế.</li>
-                    <li>Có cơ hội nhận huy chương và chứng nhận quốc tế.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Vòng loại: Tháng 2/2027 | Vòng quốc gia: Tháng 4/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Quốc gia – Quốc tế</li>
-                    <li>Ngôn ngữ: Song ngữ</li>
-                    <li>Lệ phí tham gia: Vòng loại: 200.000 đồng | Vòng quốc gia: 450.000 đồng</li>
-                </ul>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Công nghệ không chỉ để sử dụng, mà còn để sáng tạo nên những giá trị mới. 💙</p>`
-            },
-            {
-                title: "ĐẠI SỨ VĂN HÓA ĐỌC ĐÀ NẴNG", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 6/2027", 
-                level: "Tỉnh", 
-                fee: "Miễn phí", 
-                subject: "Đọc sách / Văn hóa",
-                activeMonths: [6],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/Logo-van-hoa-doc.jpeg",
-                desc: `<p>– Lan tỏa văn hóa đọc đến cộng đồng! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Đại sứ Văn hóa đọc là cuộc thi nhằm lan tỏa niềm yêu thích đọc sách trong học sinh, góp phần xây dựng thói quen tự học và phát triển văn hóa đọc trong cộng đồng. Đây là sân chơi giúp học sinh chia sẻ những cuốn sách yêu thích, những câu chuyện truyền cảm hứng và các ý tưởng phát triển văn hóa đọc.</p>
-                <p>Thông qua cuộc thi, học sinh không chỉ đọc sách mà còn học cách suy ngẫm, chia sẻ và ứng dụng những bài học từ sách vào cuộc sống.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Hình thành thói quen đọc sách thường xuyên.</li>
-                    <li>Phát triển tư duy và khả năng tự học.</li>
-                    <li>Nâng cao khả năng cảm nhận và phân tích nội dung.</li>
-                    <li>Rèn luyện kỹ năng viết và trình bày ý tưởng.</li>
-                    <li>Mở rộng hiểu biết về nhiều lĩnh vực trong cuộc sống.</li>
-                    <li>Bồi dưỡng nhân cách và các giá trị sống tích cực.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 4-5/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Tỉnh – Quốc gia</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Giấy chứng nhận, Bằng khen, Giải thưởng cấp tỉnh và quốc gia.</p>
-                <p><strong>Vì sao nhà trường khuyến khích học sinh tham gia?</strong></p>
-                <p>Đọc sách là nền tảng của việc học tập suốt đời. Nhà trường mong muốn thông qua cuộc thi, học sinh xây dựng được thói quen đọc sách, phát triển năng lực tự học và biết vận dụng những giá trị từ sách vào thực tiễn cuộc sống.</p>
-                <p><strong>Vai trò đồng hành của phụ huynh:</strong> Phụ huynh hãy cùng con lựa chọn sách phù hợp, chia sẻ những cuốn sách hay và tạo môi trường đọc sách trong gia đình. Những phút giây đọc sách cùng nhau sẽ trở thành những trải nghiệm ý nghĩa và lâu dài.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi cuốn sách là một người bạn đồng hành trên hành trình trưởng thành của các em. 💙</p>`
-            },
-            {
-                title: "SÁNG TẠO THANH THIẾU NIÊN NHI ĐỒNG", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 6/2027", 
-                level: "Tỉnh", 
-                fee: "Miễn phí", 
-                subject: "Sáng tạo kỹ thuật",
-                activeMonths: [6],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/763980639_122188206254748162_6844953406704635826_n.jpg",
-                desc: `<p>– Ý tưởng nhỏ cho tương lai lớn! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Đây là cuộc thi khoa học kỹ thuật cấp tỉnh nhằm tìm kiếm các ý tưởng và sản phẩm sáng tạo phục vụ học tập, đời sống và cộng đồng. Cuộc thi khuyến khích học sinh mạnh dạn đưa ra giải pháp cho các vấn đề thực tiễn bằng tư duy đổi mới sáng tạo.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển năng lực đổi mới sáng tạo.</li>
-                    <li>Thực hiện các dự án nghiên cứu.</li>
-                    <li>Giải quyết các vấn đề cộng đồng.</li>
-                    <li>Rèn luyện kỹ năng thuyết trình.</li>
-                    <li>Xây dựng tư duy khởi nghiệp.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 6/2027</li>
-                    <li>Đối tượng: Học sinh khối 6 – 8</li>
-                    <li>Cấp độ: Tỉnh</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Những ý tưởng nhỏ hôm nay có thể tạo nên những thay đổi lớn cho cộng đồng ngày mai. 💙</p>`
-            },
-            {
-                title: "ĐẤU TRƯỜNG VIOEDU", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 5 - Tháng 6/2027", 
-                level: "Quốc gia", 
-                fee: "Online: Miễn phí – Chung kết: 499.000 VNĐ / học sinh", 
-                subject: "Toán, TV, TA",
-                activeMonths: [5, 6],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/783617074_1552203482821897_3638583348776867873_n.jpg",
-                desc: `<p>– Thử thách trí tuệ, bứt phá tài năng toàn diện! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Trong hành trình nuôi dưỡng và phát triển toàn diện cho các con tại bậc Tiểu học, nhà trường luôn chú trọng tìm kiếm và mang đến những sân chơi uy tín, chất lượng cao. Hôm nay, nhà trường trân trọng giới thiệu đến Quý Phụ huynh một trong những sân chơi đó: ĐẤU TRƯỜNG VIOEDU. Đây không chỉ là một cuộc thi đánh giá năng lực đơn thuần, mà còn là bệ phóng hoàn hảo giúp các con làm quen với Toán học, Tiếng Việt, Tiếng Anh, ứng dụng kiến thức vào giải quyết các vấn đề thực tiễn một cách tự nhiên và đầy hứng thú.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <p>Đối với kỳ thi này, các con sẽ được trải nghiệm một môi trường học tập sáng tạo với những giá trị phát triển cốt lõi:</p>
-                <ul>
-                    <li>Xây dựng nền tảng tư duy thông qua các câu hỏi: Giúp các con củng cố kiến thức, khơi dậy niềm đam mê Toán học và làm quen với tư duy suy luận logic.</li>
-                    <li>Phát triển tư duy phân tích và giải quyết vấn đề: Thông qua các bài toán từ cơ bản đến nâng cao, các con sẽ học cách phân tích và tìm kiếm phương pháp giải quyết tối ưu.</li>
-                    <li>Rèn luyện sự tập trung và tính kiên nhẫn: Việc suy nghĩ và giải mã các thử thách Toán học giúp các con học được sự kiên trì, không bỏ cuộc trước khó khăn.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi:</strong></p>
-                <ul>
-                    <li>Thời gian tổ chức: Tháng 5 – Tháng 6</li>
-                    <li>Đối tượng: K6-K8</li>
-                    <li>Cấp độ: Quốc gia</li>
-                    <li>Lệ phí: Online: Miễn phí – Chung kết: 499.000 đồng</li>
-                    <li>Lĩnh vực / Môn thi: Toán học, Tiếng Việt, Tiếng Anh</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                </ul>
-                <p class="font-bold text-fpt-blue mt-4">“Mỗi thử thách là một cơ hội trưởng thành, và mỗi nỗ lực ngày hôm nay đều là hành trang quý giá cho tương lai của các con.” 💙</p>`
-            },
-            {
-                title: "TIN HỌC TRẺ", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 6/2027", 
-                level: "Tỉnh", 
-                fee: "Miễn phí", 
-                subject: "Tin học / STEM",
-                activeMonths: [6],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/649213634_122172219680748162_780732706503290624_n.jpg",
-                desc: `<p>– Sáng tạo công nghệ, vươn tầm trí tuệ số! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Tin học trẻ là sân chơi dành cho học sinh yêu thích công nghệ, lập trình và sáng tạo số. Cuộc thi tạo điều kiện để học sinh thể hiện khả năng ứng dụng công nghệ vào học tập và giải quyết các vấn đề thực tiễn.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Phát triển kỹ năng lập trình.</li>
-                    <li>Rèn luyện tư duy thuật toán.</li>
-                    <li>Tăng khả năng sáng tạo công nghệ.</li>
-                    <li>Mở rộng trải nghiệm học tập STEM.</li>
-                    <li>Có cơ hội nhận học bổng và chứng nhận.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 6/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Tỉnh</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Mỗi dòng lệnh hôm nay là một bước tiến tới thế giới công nghệ của tương lai. 💙</p>`
-            },
-            {
-                title: "SAMSUNG SOLVE FOR TOMORROW", 
-                target: "Khối 6 - 8", 
-                time: "Tháng 6/2027", 
-                level: "Quốc gia", 
-                fee: "Miễn phí", 
-                subject: "STEM / Công nghệ",
-                activeMonths: [6],
-                image: "https://raw.githubusercontent.com/ngannth12-art/hinhcuocthi/main/LBB_Online_-_2023-08-28T102027.930.png",
-                desc: `<p>– Giải pháp công nghệ vì cộng đồng tương lai! –</p>
-                <p><strong>Kính gửi Quý Phụ huynh,</strong></p>
-                <p>Samsung Solve for Tomorrow là cuộc thi STEM quy mô quốc gia khuyến khích học sinh sử dụng khoa học, công nghệ và tư duy đổi mới sáng tạo để giải quyết các vấn đề của cộng đồng. Đây là sân chơi giúp học sinh trải nghiệm quy trình nghiên cứu, thiết kế và phát triển sản phẩm công nghệ từ ý tưởng đến mô hình thực tế.</p>
-                <p><strong>Học sinh nhận được gì khi tham gia?</strong></p>
-                <ul>
-                    <li>Tư duy đổi mới sáng tạo.</li>
-                    <li>Nghiên cứu và phát triển dự án.</li>
-                    <li>Ứng dụng STEM vào thực tiễn.</li>
-                    <li>Giải quyết các vấn đề xã hội.</li>
-                    <li>Nâng cao kỹ năng thuyết trình.</li>
-                    <li>Làm quen với tư duy khởi nghiệp công nghệ.</li>
-                </ul>
-                <p><strong>Thông tin cuộc thi</strong></p>
-                <ul>
-                    <li>Thời gian: Tháng 6/2027</li>
-                    <li>Đối tượng: Học sinh khối 6-8</li>
-                    <li>Cấp độ: Quốc gia</li>
-                    <li>Ngôn ngữ: Tiếng Việt</li>
-                    <li>Lệ phí tham gia: Miễn phí</li>
-                </ul>
-                <p><strong>Giá trị từ Ban Tổ chức:</strong> Giấy chứng nhận, Học bổng, Cơ hội giao lưu học thuật.</p>
-                <p class="font-bold text-fpt-blue mt-4">Thông điệp: Những ý tưởng vì cộng đồng hôm nay có thể trở thành giải pháp cho tương lai. 💙</p>`
+        let competitions = [];
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function getCompetitionTime(comp) {
+            if (comp.examDateText && comp.examDateText.trim()) {
+                return comp.examDateText.trim();
             }
-        ];
+            if (comp.registrationText && comp.registrationText.trim()) {
+                return comp.registrationText.trim();
+            }
+            return 'Thời gian đang cập nhật';
+        }
 
         function renderCompetitions(filterMonth = null) {
             const grid = document.getElementById('competitionGrid');
+            if (!grid) return;
             grid.innerHTML = '';
             
             const filtered = competitions.filter(comp => {
                 if (filterMonth === null) return true;
-                return comp.activeMonths.includes(filterMonth);
+                return Array.isArray(comp.activeMonths) && comp.activeMonths.includes(filterMonth);
             });
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500">Không có cuộc thi nào đang diễn ra trong tháng này.</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500 text-base">Không có cuộc thi nào đang diễn ra trong tháng này.</div>`;
                 return;
             }
 
             filtered.forEach((comp) => {
                 const index = competitions.indexOf(comp);
+                const displayTime = getCompetitionTime(comp);
+                const imgSrc = (comp.image && comp.image.trim()) ? comp.image.trim() : FPT_PLACEHOLDER_SVG;
+
                 const card = document.createElement('div');
                 card.className = "bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col";
                 card.innerHTML = `
                     <div class="relative h-48 overflow-hidden bg-gray-200">
-                        <img src="${comp.image}" onerror="this.src='${fallbackImg}'" alt="${comp.title}" class="w-full h-full object-cover">
+                        <img src="${escapeHtml(imgSrc)}" onerror="this.onerror=null;this.src='${FPT_PLACEHOLDER_SVG}'" alt="${escapeHtml(comp.title)}" class="w-full h-full object-cover">
                         <div class="absolute top-3 right-3 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-fpt-blue shadow-sm backdrop-blur-sm">
-                            ${comp.subject}
+                            ${escapeHtml(comp.subject || 'Tổng hợp')}
                         </div>
                     </div>
                     <div class="p-6 flex flex-col flex-grow">
-                        <span class="text-xs font-bold text-fpt-orange uppercase tracking-wider mb-2">ĐỐI TƯỢNG: ${comp.target}</span>
-                        <h4 class="text-lg font-bold text-fpt-blue uppercase leading-snug mb-3 line-clamp-2" title="${comp.title}">${comp.title}</h4>
+                        <span class="text-xs font-bold text-fpt-orange uppercase tracking-wider mb-2">ĐỐI TƯỢNG: ${escapeHtml(comp.target || 'Đang cập nhật')}</span>
+                        <h4 class="text-lg font-bold text-fpt-blue uppercase leading-snug mb-3 line-clamp-2" title="${escapeHtml(comp.title)}">${escapeHtml(comp.title)}</h4>
                         <div class="mt-auto space-y-2 mb-5">
-                            <p class="text-gray-500 text-sm flex items-center gap-2">🕒 ${comp.time}</p>
-                            <p class="text-gray-500 text-sm flex items-center gap-2">💰 Lệ phí: ${comp.fee}</p>
+                            <p class="text-gray-500 text-sm flex items-center gap-2">🕒 ${escapeHtml(displayTime)}</p>
+                            <p class="text-gray-500 text-sm flex items-center gap-2">💰 Lệ phí: ${escapeHtml(comp.fee || 'Đang cập nhật')}</p>
                         </div>
                         <div class="flex gap-2 mt-auto pt-4 border-t border-gray-50">
                             <button onclick="openModal(${index})" class="flex-1 border-2 border-fpt-blue text-fpt-blue px-2 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors">Chi tiết</button>
-                            <button onclick="openRegister('${comp.title}')" class="flex-1 bg-fpt-blue text-white px-2 py-2 rounded-lg font-semibold text-sm hover:bg-blue-800 transition-colors">Đăng ký</button>
+                            <button onclick="openRegisterByIndex(${index})" class="flex-1 bg-fpt-blue text-white px-2 py-2 rounded-lg font-semibold text-sm hover:bg-blue-800 transition-colors">Đăng ký</button>
                         </div>
                     </div>
                 `;
@@ -1009,32 +312,169 @@
         function filterByMonth(month) {
             const buttons = document.querySelectorAll('.timeline-btn');
             buttons.forEach(btn => {
-                btn.classList.remove('bg-fpt-blue', 'text-white');
+                btn.classList.remove('bg-fpt-blue', 'text-white', 'shadow-sm');
                 btn.classList.add('bg-gray-100', 'text-gray-700');
             });
-            event.target.classList.remove('bg-gray-100', 'text-gray-700');
-            event.target.classList.add('bg-fpt-blue', 'text-white');
+            if (window.event && window.event.target) {
+                const target = window.event.target.closest('.timeline-btn');
+                if (target) {
+                    target.classList.remove('bg-gray-100', 'text-gray-700');
+                    target.classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+                }
+            }
 
             renderCompetitions(month);
         }
 
-        document.addEventListener('DOMContentLoaded', () => renderCompetitions(null));
+        async function loadCompetitions() {
+            const grid = document.getElementById('competitionGrid');
+            if (grid) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500 text-base">Đang tải danh sách cuộc thi...</div>`;
+            }
+            try {
+                let response = await fetch('/data/competitions.json');
+                if (!response.ok) {
+                    response = await fetch('data/competitions.json');
+                }
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                competitions = await response.json();
+                renderCompetitions(null);
+            } catch (error) {
+                console.error('Không thể tải dữ liệu cuộc thi:', error);
+                if (grid) {
+                    grid.innerHTML = `<div class="col-span-full text-center py-12 text-red-600 font-semibold text-base">Không thể tải dữ liệu cuộc thi. Vui lòng thử lại sau.</div>`;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCompetitions);
 
         function openModal(index) {
             const comp = competitions[index];
+            if (!comp) return;
+
             document.getElementById('modalTitle').textContent = comp.title;
-            document.getElementById('modalTime').textContent = comp.time;
-            document.getElementById('modalTarget').textContent = comp.target;
-            document.getElementById('modalLevel').textContent = comp.level;
-            document.getElementById('modalFee').textContent = comp.fee;
-            document.getElementById('modalDesc').innerHTML = comp.desc;
-            
+
+            const infoItems = [
+                { label: 'ĐỐI TƯỢNG', value: comp.target || 'Đang cập nhật', highlight: 'text-gray-800' },
+                { label: 'MÔN / LĨNH VỰC', value: comp.subject || 'Đang cập nhật', highlight: 'text-fpt-blue' },
+                { label: 'CẤP ĐỘ', value: comp.level || 'Đang cập nhật', highlight: 'text-gray-800' },
+                { label: 'LỆ PHÍ', value: comp.fee || 'Đang cập nhật', highlight: 'text-red-600' },
+                { label: 'THỜI GIAN ĐĂNG KÝ', value: comp.registrationText || 'Đang cập nhật', highlight: 'text-gray-800' },
+                { label: 'THỜI GIAN THI', value: comp.examDateText || 'Đang cập nhật', highlight: 'text-fpt-orange' },
+                { label: 'NGÔN NGỮ', value: comp.language || 'Đang cập nhật', highlight: 'text-gray-800' },
+                { label: 'ĐƠN VỊ PHỤ TRÁCH', value: comp.department || 'Đang cập nhật', highlight: 'text-gray-800' }
+            ];
+
+            let html = `
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    ${infoItems.map(item => `
+                        <div class="space-y-1">
+                            <span class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider">${item.label}</span>
+                            <span class="text-sm font-bold ${item.highlight} block leading-snug">${escapeHtml(item.value)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Awards Summary
+            if (comp.awardsSummary && comp.awardsSummary.trim()) {
+                html += `
+                    <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-4">
+                        <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                            <span>🏆</span> Cơ cấu giải thưởng &amp; Quyền lợi
+                        </h4>
+                        <p class="text-sm font-semibold text-gray-800 leading-relaxed">${escapeHtml(comp.awardsSummary)}</p>
+                    </div>
+                `;
+            }
+
+            // Rounds (F: Nếu rounds.length > 0)
+            if (Array.isArray(comp.rounds) && comp.rounds.length > 0) {
+                html += `
+                    <div class="border-t border-gray-100 pt-4">
+                        <h4 class="text-sm font-extrabold text-fpt-blue uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <span>🚩</span> CÁC VÒNG / CẤP THI
+                        </h4>
+                        <div class="space-y-3">
+                            ${comp.rounds.map((r, idx) => `
+                                <div class="bg-blue-50/50 border border-blue-100/80 rounded-xl p-3.5 text-sm">
+                                    <div class="font-bold text-fpt-blue mb-2 flex items-center gap-2">
+                                        <span class="w-5 h-5 rounded-full bg-fpt-blue text-white text-xs flex items-center justify-center font-bold">${idx + 1}</span>
+                                        <span>${escapeHtml(r.name)}</span>
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-700">
+                                        <div><span class="text-gray-500 font-medium">Thời gian đăng ký:</span> <span class="font-semibold text-gray-800">${escapeHtml(r.registrationText || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Thời gian thi:</span> <span class="font-semibold text-fpt-orange">${escapeHtml(r.examDateText || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Cấp độ:</span> <span class="font-semibold text-gray-800">${escapeHtml(r.level || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Lệ phí:</span> <span class="font-semibold text-red-600">${escapeHtml(r.fee || "Đang cập nhật")}</span></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Tracks (G: Nếu tracks.length > 0)
+            if (Array.isArray(comp.tracks) && comp.tracks.length > 0) {
+                html += `
+                    <div class="border-t border-gray-100 pt-4">
+                        <h4 class="text-sm font-extrabold text-fpt-blue uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <span>📑</span> MÔN / BẢNG / NHÁNH THI
+                        </h4>
+                        <div class="space-y-3">
+                            ${comp.tracks.map((t) => `
+                                <div class="bg-gray-50 border border-gray-200/80 rounded-xl p-3.5 text-sm">
+                                    <div class="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full bg-fpt-orange"></span>
+                                        <span>${escapeHtml(t.name)}</span>
+                                        ${t.subject ? `<span class="text-xs bg-blue-100 text-fpt-blue px-2 py-0.5 rounded-full font-medium">${escapeHtml(t.subject)}</span>` : ''}
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-700">
+                                        <div><span class="text-gray-500 font-medium">Thời gian đăng ký:</span> <span class="font-semibold text-gray-800">${escapeHtml(t.registrationText || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Thời gian thi:</span> <span class="font-semibold text-fpt-orange">${escapeHtml(t.examDateText || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Cấp độ:</span> <span class="font-semibold text-gray-800">${escapeHtml(t.level || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Lệ phí:</span> <span class="font-semibold text-red-600">${escapeHtml(t.fee || "Đang cập nhật")}</span></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Description (H)
+            const descContent = (comp.desc && comp.desc.trim()) ? comp.desc : '<p class="italic text-gray-500">Thông tin chi tiết đang được cập nhật.</p>';
+            html += `
+                <div class="border-t border-gray-100 pt-4">
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">GIỚI THIỆU CHI TIẾT</h4>
+                    <div class="text-gray-700 text-sm leading-relaxed modal-body">
+                        ${descContent}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modalBody').innerHTML = html;
+
+            // Official Link (I: Chỉ hiển thị nút khi bắt đầu bằng http:// hoặc https://)
+            const linkBtn = document.getElementById('modalOfficialLink');
+            if (comp.officialLink && /^https?:\/\//i.test(comp.officialLink.trim())) {
+                linkBtn.href = comp.officialLink.trim();
+                linkBtn.classList.remove('hidden');
+            } else {
+                linkBtn.classList.add('hidden');
+            }
+
+            // Register button in modal
             const btnRegister = document.getElementById('modalBtnRegister');
             btnRegister.onclick = function() {
                 closeModal('detailModal');
                 setTimeout(() => { openRegister(comp.title); }, 300);
             };
-            
+
             const modal = document.getElementById('detailModal');
             const content = document.getElementById('detailContent');
             modal.classList.remove('hidden');
@@ -1042,6 +482,12 @@
                 modal.classList.remove('opacity-0');
                 content.classList.remove('scale-95');
             }, 10);
+        }
+
+        function openRegisterByIndex(index) {
+            if (competitions[index]) {
+                openRegister(competitions[index].title);
+            }
         }
 
         function openRegister(competitionName) {
@@ -1071,13 +517,13 @@
                 return;
             }
 
-            // Tạm thời vô hiệu hóa gửi dữ liệu đến Google Apps Script (môi trường development)
+            // Development Mode: Không gửi dữ liệu ra server ngoài
             const toast = document.getElementById('toast');
             toast.textContent = 'Đăng ký thử nghiệm thành công. Dữ liệu chưa được gửi.';
             toast.style.backgroundColor = '#4CAF50';
-            toast.className = "toast show";
+            toast.className = 'toast show';
             setTimeout(() => { 
-                toast.className = toast.className.replace("show", ""); 
+                toast.className = toast.className.replace('show', ''); 
             }, 3000);
 
             form.reset();
