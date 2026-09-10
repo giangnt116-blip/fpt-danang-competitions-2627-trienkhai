@@ -299,8 +299,44 @@
                     <input type="text" id="regStudentName" required placeholder="Nhập họ và tên học sinh" class="w-full h-11 border border-gray-200 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all">
                 </div>
                 <div>
+                    <label for="regGrade" class="block text-xs font-bold text-gray-700 uppercase mb-1">Khối *</label>
+                    <div class="relative">
+                        <select 
+                            id="regGrade" 
+                            name="grade"
+                            required 
+                            aria-label="Chọn khối học sinh"
+                            onchange="handleRegGradeChange(this.value)"
+                            class="w-full h-11 appearance-none bg-white border border-gray-200 rounded-xl pl-3.5 pr-10 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all cursor-pointer"
+                        >
+                            <option value="">-- Chọn Khối --</option>
+                            <option value="6">Khối 6</option>
+                            <option value="7">Khối 7</option>
+                            <option value="8">Khối 8</option>
+                            <option value="9">Khối 9</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <div>
                     <label for="regClass" class="block text-xs font-bold text-gray-700 uppercase mb-1">Lớp *</label>
-                    <input type="text" id="regClass" required placeholder="Ví dụ: 6A1" class="w-full h-11 border border-gray-200 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all">
+                    <div class="relative">
+                        <select 
+                            id="regClass" 
+                            name="class"
+                            required 
+                            disabled
+                            aria-label="Chọn lớp học sinh"
+                            class="w-full h-11 appearance-none bg-gray-100 border border-gray-200 rounded-xl pl-3.5 pr-10 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all cursor-not-allowed"
+                        >
+                            <option value="">-- Chọn Khối trước --</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <label for="regPhone" class="block text-xs font-bold text-gray-700 uppercase mb-1">Số điện thoại phụ huynh *</label>
@@ -976,6 +1012,50 @@
             }, 10);
         }
 
+        // Danh sách lớp chính thức theo khối - THCS FPT Đà Nẵng
+        const GRADE_CLASSES = {
+            '6': ['6A1', '6A2', '6A3', '6A4', '6A5', '6A6', '6A7', '6A8', '6A9', '6A10', '6A11', '6A12', '6A13', '6A14'],
+            '7': ['7A1', '7A2', '7A3', '7A4', '7A5', '7A6', '7A7', '7A8', '7A9', '7A10', '7A11', '7A12', '7A13'],
+            '8': ['8A1', '8A2', '8A3', '8A4', '8A5', '8A6', '8A7', '8A8', '8A9', '8A10', '8A11', '8A12', '8A13'],
+            '9': ['9A1', '9A2', '9A3', '9A4', '9A5', '9A6', '9A7', '9A8', '9A9', '9A10', '9A11', '9A12', '9A13']
+        };
+
+        function handleRegGradeChange(grade) {
+            const classSelect = document.getElementById('regClass');
+            if (!classSelect) return;
+
+            classSelect.setCustomValidity('');
+            classSelect.innerHTML = '';
+
+            if (!grade || !GRADE_CLASSES[grade]) {
+                classSelect.disabled = true;
+                classSelect.classList.remove('bg-white', 'cursor-pointer');
+                classSelect.classList.add('bg-gray-100', 'cursor-not-allowed');
+
+                const defaultOpt = document.createElement('option');
+                defaultOpt.value = '';
+                defaultOpt.textContent = '-- Chọn Khối trước --';
+                classSelect.appendChild(defaultOpt);
+            } else {
+                classSelect.disabled = false;
+                classSelect.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                classSelect.classList.add('bg-white', 'cursor-pointer');
+
+                const defaultOpt = document.createElement('option');
+                defaultOpt.value = '';
+                defaultOpt.textContent = '-- Chọn Lớp --';
+                classSelect.appendChild(defaultOpt);
+
+                GRADE_CLASSES[grade].forEach(cls => {
+                    const opt = document.createElement('option');
+                    opt.value = cls;
+                    opt.textContent = cls;
+                    classSelect.appendChild(opt);
+                });
+            }
+            classSelect.value = '';
+        }
+
         function openRegisterByIndex(index) {
             if (competitions[index]) {
                 openRegister(competitions[index].title);
@@ -983,6 +1063,15 @@
         }
 
         function openRegister(competitionName) {
+            const form = document.getElementById('registrationForm');
+            if (form) form.reset();
+            const gradeSelect = document.getElementById('regGrade');
+            if (gradeSelect) {
+                gradeSelect.value = '';
+                gradeSelect.setCustomValidity('');
+            }
+            handleRegGradeChange('');
+
             document.getElementById('regCompetition').value = competitionName;
             const modal = document.getElementById('registerModal');
             const content = document.getElementById('registerContent');
@@ -998,16 +1087,62 @@
             const content = modal.children[0];
             modal.classList.add('opacity-0');
             content.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            setTimeout(() => { 
+                modal.classList.add('hidden'); 
+                if (modalId === 'registerModal') {
+                    const form = document.getElementById('registrationForm');
+                    if (form) form.reset();
+                    const gradeSelect = document.getElementById('regGrade');
+                    if (gradeSelect) {
+                        gradeSelect.value = '';
+                        gradeSelect.setCustomValidity('');
+                    }
+                    handleRegGradeChange('');
+                }
+            }, 300);
         }
 
         function submitForm(e) {
             e.preventDefault();
             const form = document.getElementById('registrationForm');
+            const gradeSelect = document.getElementById('regGrade');
+            const classSelect = document.getElementById('regClass');
+
+            // Reset custom validities before checking
+            if (gradeSelect) gradeSelect.setCustomValidity('');
+            if (classSelect) classSelect.setCustomValidity('');
+
+            if (!gradeSelect || !gradeSelect.value) {
+                if (gradeSelect) {
+                    gradeSelect.setCustomValidity('Vui lòng chọn Khối.');
+                    gradeSelect.reportValidity();
+                }
+                return;
+            }
+
+            if (!classSelect || !classSelect.value) {
+                if (classSelect) {
+                    classSelect.setCustomValidity('Vui lòng chọn Lớp.');
+                    classSelect.reportValidity();
+                }
+                return;
+            }
+
             if (!form.checkValidity()) {
                 form.reportValidity();
                 return;
             }
+
+            // Dữ liệu đăng ký (giữ cả grade và class, Development Mode)
+            const registrationData = {
+                competition: document.getElementById('regCompetition').value,
+                studentName: document.getElementById('regStudentName').value,
+                grade: gradeSelect.value,
+                class: classSelect.value,
+                phone: document.getElementById('regPhone').value,
+                timestamp: new Date().toISOString()
+            };
+            console.log('Registration submitted (Development Mode):', registrationData);
 
             // Development Mode: Không gửi dữ liệu ra server ngoài
             const toast = document.getElementById('toast');
@@ -1019,6 +1154,7 @@
             }, 3000);
 
             form.reset();
+            handleRegGradeChange('');
             closeModal('registerModal');
         }
 
