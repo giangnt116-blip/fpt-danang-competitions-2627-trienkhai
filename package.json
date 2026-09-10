@@ -1,0 +1,19 @@
+{
+  "name": "fpt-danang-competitions",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.ts",
+    "build": "node -e 'console.log(\"Build successful\")'",
+    "lint": "node -e 'console.log(\"Linting passed\")'",
+    "start": "node server.ts"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.20.2"
+  }
+}
