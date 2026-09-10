@@ -61,6 +61,14 @@
         .modal-body strong {
             color: #092275;
         }
+        /* Ẩn thanh cuộn ngang trên mobile */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-gray-800 min-h-screen flex flex-col antialiased">
@@ -112,32 +120,114 @@
     <!-- Timeline Filter Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
         <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100">
-            <div class="flex items-center gap-2 mb-3">
+            <div class="flex items-center justify-between mb-3">
                 <span class="text-xs font-bold text-fpt-blue uppercase tracking-wider flex items-center gap-1.5">
                     <span>📅</span> LỊCH TRÌNH THEO THÁNG
                 </span>
+                <span class="text-[11px] text-gray-400 font-medium sm:hidden flex items-center gap-1">
+                    <span>👈</span> Vuốt ngang <span>👉</span>
+                </span>
             </div>
-            <div class="flex flex-wrap gap-2" id="timelineContainer">
-                <button onclick="filterByMonth(null)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-fpt-blue text-white transition-colors duration-200 shadow-sm">Tất cả</button>
-                <button onclick="filterByMonth(8)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 8</button>
-                <button onclick="filterByMonth(9)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 9</button>
-                <button onclick="filterByMonth(10)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 10</button>
-                <button onclick="filterByMonth(11)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 11</button>
-                <button onclick="filterByMonth(12)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 12</button>
-                <button onclick="filterByMonth(1)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 1</button>
-                <button onclick="filterByMonth(2)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 2</button>
-                <button onclick="filterByMonth(3)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 3</button>
-                <button onclick="filterByMonth(4)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 4</button>
-                <button onclick="filterByMonth(5)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 5</button>
-                <button onclick="filterByMonth(6)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 6</button>
-                <button onclick="filterByMonth(7)" class="timeline-btn px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 7</button>
+            <!-- Cuộn ngang 1 dòng mượt mà trên mobile, wrap linh hoạt trên desktop -->
+            <div class="flex flex-nowrap sm:flex-wrap gap-2 overflow-x-auto sm:overflow-x-visible pb-2 sm:pb-0 no-scrollbar" id="timelineContainer">
+                <button onclick="filterByMonth(null, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-fpt-blue text-white transition-colors duration-200 shadow-sm">Tất cả</button>
+                <button onclick="filterByMonth(8, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 8</button>
+                <button onclick="filterByMonth(9, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 9</button>
+                <button onclick="filterByMonth(10, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 10</button>
+                <button onclick="filterByMonth(11, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 11</button>
+                <button onclick="filterByMonth(12, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 12</button>
+                <button onclick="filterByMonth(1, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 1</button>
+                <button onclick="filterByMonth(2, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 2</button>
+                <button onclick="filterByMonth(3, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 3</button>
+                <button onclick="filterByMonth(4, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 4</button>
+                <button onclick="filterByMonth(5, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 5</button>
+                <button onclick="filterByMonth(6, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 6</button>
+                <button onclick="filterByMonth(7, event)" class="timeline-btn shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200">Tháng 7</button>
             </div>
         </div>
     </section>
 
+    <!-- Search & Quick Filters Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 relative z-20">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-gray-100 flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+            <!-- Search Input -->
+            <div class="relative flex-grow min-w-[240px]">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </span>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Tìm kiếm cuộc thi..." 
+                    oninput="handleSearch(this.value)" 
+                    class="w-full pl-10 pr-9 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-fpt-blue focus:bg-white transition-colors"
+                >
+                <button 
+                    id="clearSearchBtn" 
+                    onclick="clearSearchInput()" 
+                    class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                    title="Xóa tìm kiếm"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Filters Group -->
+            <div class="flex flex-wrap sm:flex-nowrap gap-2.5 items-center">
+                <!-- Grade Filter -->
+                <div class="relative min-w-[130px] flex-1 sm:flex-initial">
+                    <select 
+                        id="gradeFilter" 
+                        onchange="handleGradeFilter(this.value)" 
+                        class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-xl pl-3.5 pr-8 py-2.5 text-sm font-semibold text-gray-700 focus:outline-none focus:border-fpt-blue focus:bg-white transition-colors cursor-pointer"
+                    >
+                        <option value="">Tất cả khối</option>
+                        <option value="6">Khối 6</option>
+                        <option value="7">Khối 7</option>
+                        <option value="8">Khối 8</option>
+                        <option value="9">Khối 9</option>
+                    </select>
+                    <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </span>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="relative min-w-[170px] flex-1 sm:flex-initial">
+                    <select 
+                        id="categoryFilter" 
+                        onchange="handleCategoryFilter(this.value)" 
+                        class="w-full appearance-none bg-gray-50 border border-gray-200 rounded-xl pl-3.5 pr-8 py-2.5 text-sm font-semibold text-gray-700 focus:outline-none focus:border-fpt-blue focus:bg-white transition-colors cursor-pointer"
+                    >
+                        <option value="">Tất cả lĩnh vực</option>
+                    </select>
+                    <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </span>
+                </div>
+
+                <!-- Reset Filters Button -->
+                <button 
+                    id="resetFilterBtn" 
+                    onclick="resetAllFilters()" 
+                    class="hidden items-center gap-1.5 px-3.5 py-2.5 text-sm font-semibold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-xl transition-colors shrink-0"
+                    title="Khôi phục trạng thái mặc định"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <span>Xóa bộ lọc</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Counter -->
+        <div class="flex justify-between items-center px-1 mt-3 text-xs sm:text-sm font-medium text-gray-500">
+            <span id="resultsCount">Hiển thị 50 / 50 cuộc thi</span>
+        </div>
+    </section>
+
     <!-- Competition Grid Section -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
-        <div id="competitionGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        <div id="competitionGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
             <!-- Rendered by JavaScript -->
         </div>
     </main>
@@ -241,7 +331,26 @@
 </svg>
 `);
 
+        // Danh sách tên thân thiện cho các lĩnh vực lấy từ dữ liệu thực tế
+        const CATEGORY_LABELS = {
+            'TOÁN': 'Toán học',
+            'TIN HỌC, CÔNG NGHỆ, STEM': 'Tin học & STEM',
+            'TIẾNG ANH': 'Tiếng Anh',
+            'KHOA HỌC TỰ NHIÊN': 'Khoa học Tự nhiên',
+            'KHOA HỌC XÃ HỘI': 'Khoa học Xã hội & Văn học',
+            'PDP': 'Kỹ năng & Thể thao (PDP)',
+            'ĐA MÔN / KHÁC': 'Đa môn & Tổng hợp'
+        };
+
         let competitions = [];
+
+        // Quản lý trạng thái bộ lọc kết hợp
+        const currentFilter = {
+            month: null,    // null = tất cả tháng, hoặc 1..12
+            grade: null,    // null = tất cả khối, hoặc 6, 7, 8, 9
+            category: '',   // '' = tất cả lĩnh vực, hoặc tên category
+            search: ''      // từ khóa tìm kiếm
+        };
 
         function escapeHtml(str) {
             if (!str) return '';
@@ -251,6 +360,15 @@
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#039;');
+        }
+
+        // Loại bỏ dấu tiếng Việt để tìm kiếm thuận tiện không dấu
+        function removeVietnameseTones(str) {
+            if (!str) return '';
+            str = str.toLowerCase();
+            str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            str = str.replace(/[đĐ]/g, 'd');
+            return str.trim();
         }
 
         function getCompetitionTime(comp) {
@@ -263,18 +381,41 @@
             return 'Thời gian đang cập nhật';
         }
 
-        function renderCompetitions(filterMonth = null) {
+        // Tự động khởi tạo danh sách lĩnh vực từ dữ liệu thực tế trong competitions
+        function populateCategoryOptions() {
+            const select = document.getElementById('categoryFilter');
+            if (!select) return;
+            
+            const uniqueCats = Array.from(new Set(competitions.map(c => c.category).filter(Boolean)));
+            select.innerHTML = '<option value="">Tất cả lĩnh vực</option>';
+            uniqueCats.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = CATEGORY_LABELS[cat] || cat;
+                select.appendChild(option);
+            });
+        }
+
+        // Hiển thị danh sách card với chiều cao và layout đồng bộ
+        function renderCards(filtered) {
             const grid = document.getElementById('competitionGrid');
+            const countEl = document.getElementById('resultsCount');
+            
+            if (countEl) {
+                countEl.textContent = `Hiển thị ${filtered.length} / ${competitions.length} cuộc thi`;
+            }
+
             if (!grid) return;
             grid.innerHTML = '';
-            
-            const filtered = competitions.filter(comp => {
-                if (filterMonth === null) return true;
-                return Array.isArray(comp.activeMonths) && comp.activeMonths.includes(filterMonth);
-            });
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500 text-base">Không có cuộc thi nào đang diễn ra trong tháng này.</div>`;
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400">🔍</div>
+                        <h4 class="text-base font-bold text-gray-700 mb-1">Không tìm thấy cuộc thi phù hợp.</h4>
+                        <p class="text-sm text-gray-500 max-w-md mx-auto">Vui lòng thử thay đổi từ khóa tìm kiếm hoặc điều chỉnh lại các tiêu chí bộ lọc.</p>
+                    </div>
+                `;
                 return;
             }
 
@@ -284,22 +425,32 @@
                 const imgSrc = (comp.image && comp.image.trim()) ? comp.image.trim() : FPT_PLACEHOLDER_SVG;
 
                 const card = document.createElement('div');
-                card.className = "bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col";
+                card.className = "bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full";
                 card.innerHTML = `
-                    <div class="relative h-48 overflow-hidden bg-gray-200">
+                    <div class="relative h-48 overflow-hidden bg-gray-200 shrink-0">
                         <img src="${escapeHtml(imgSrc)}" onerror="this.onerror=null;this.src='${FPT_PLACEHOLDER_SVG}'" alt="${escapeHtml(comp.title)}" class="w-full h-full object-cover">
-                        <div class="absolute top-3 right-3 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-fpt-blue shadow-sm backdrop-blur-sm">
+                        <div class="absolute top-3 right-3 bg-white/95 px-3 py-1 rounded-full text-xs font-bold text-fpt-blue shadow-sm backdrop-blur-sm max-w-[70%] truncate" title="${escapeHtml(comp.subject || 'Tổng hợp')}">
                             ${escapeHtml(comp.subject || 'Tổng hợp')}
                         </div>
                     </div>
-                    <div class="p-6 flex flex-col flex-grow">
-                        <span class="text-xs font-bold text-fpt-orange uppercase tracking-wider mb-2">ĐỐI TƯỢNG: ${escapeHtml(comp.target || 'Đang cập nhật')}</span>
-                        <h4 class="text-lg font-bold text-fpt-blue uppercase leading-snug mb-3 line-clamp-2" title="${escapeHtml(comp.title)}">${escapeHtml(comp.title)}</h4>
-                        <div class="mt-auto space-y-2 mb-5">
-                            <p class="text-gray-500 text-sm flex items-center gap-2">🕒 ${escapeHtml(displayTime)}</p>
-                            <p class="text-gray-500 text-sm flex items-center gap-2">💰 Lệ phí: ${escapeHtml(comp.fee || 'Đang cập nhật')}</p>
+                    <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                        <span class="text-xs font-bold text-fpt-orange uppercase tracking-wider mb-2 shrink-0 truncate" title="ĐỐI TƯỢNG: ${escapeHtml(comp.target || 'Đang cập nhật')}">
+                            ĐỐI TƯỢNG: ${escapeHtml(comp.target || 'Đang cập nhật')}
+                        </span>
+                        <h4 class="text-base sm:text-lg font-bold text-fpt-blue uppercase leading-snug mb-3 line-clamp-2 min-h-[3.25rem] flex items-center" title="${escapeHtml(comp.title)}">
+                            ${escapeHtml(comp.title)}
+                        </h4>
+                        <div class="space-y-2 mb-5 shrink-0">
+                            <p class="text-gray-500 text-sm flex items-start gap-2 line-clamp-2 min-h-[2.6rem]" title="${escapeHtml(displayTime)}">
+                                <span class="shrink-0 mt-0.5">🕒</span>
+                                <span class="break-words">${escapeHtml(displayTime)}</span>
+                            </p>
+                            <p class="text-gray-500 text-sm flex items-center gap-2 truncate" title="Lệ phí: ${escapeHtml(comp.fee || 'Đang cập nhật')}">
+                                <span class="shrink-0">💰</span>
+                                <span class="truncate">Lệ phí: ${escapeHtml(comp.fee || 'Đang cập nhật')}</span>
+                            </p>
                         </div>
-                        <div class="flex gap-2 mt-auto pt-4 border-t border-gray-50">
+                        <div class="flex gap-2 mt-auto pt-4 border-t border-gray-100 shrink-0">
                             <button onclick="openModal(${index})" class="flex-1 border-2 border-fpt-blue text-fpt-blue px-2 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors">Chi tiết</button>
                             <button onclick="openRegisterByIndex(${index})" class="flex-1 bg-fpt-blue text-white px-2 py-2 rounded-lg font-semibold text-sm hover:bg-blue-800 transition-colors">Đăng ký</button>
                         </div>
@@ -309,21 +460,156 @@
             });
         }
 
-        function filterByMonth(month) {
+        // Áp dụng bộ lọc kết hợp đồng thời: Month AND Grade AND Category AND SearchText
+        function applyFilters() {
+            const isFiltered = (currentFilter.month !== null) || 
+                               (currentFilter.grade !== null) || 
+                               (currentFilter.category !== '') || 
+                               (currentFilter.search.trim() !== '');
+
+            const resetBtn = document.getElementById('resetFilterBtn');
+            if (resetBtn) {
+                if (isFiltered) {
+                    resetBtn.classList.remove('hidden');
+                    resetBtn.classList.add('inline-flex');
+                } else {
+                    resetBtn.classList.add('hidden');
+                    resetBtn.classList.remove('inline-flex');
+                }
+            }
+
+            const cleanSearch = removeVietnameseTones(currentFilter.search);
+            const rawSearch = currentFilter.search.toLowerCase().trim();
+
+            const filtered = competitions.filter(comp => {
+                // 1. Lọc theo tháng
+                if (currentFilter.month !== null) {
+                    if (!Array.isArray(comp.activeMonths) || !comp.activeMonths.includes(currentFilter.month)) {
+                        return false;
+                    }
+                }
+                // 2. Lọc theo khối lớp
+                if (currentFilter.grade !== null) {
+                    if (!Array.isArray(comp.targetGrades) || !comp.targetGrades.includes(currentFilter.grade)) {
+                        return false;
+                    }
+                }
+                // 3. Lọc theo lĩnh vực
+                if (currentFilter.category !== '') {
+                    if (comp.category !== currentFilter.category) {
+                        return false;
+                    }
+                }
+                // 4. Lọc theo từ khóa tìm kiếm (title, subject, specificSubjects)
+                if (rawSearch !== '') {
+                    const title = comp.title || '';
+                    const subject = comp.subject || '';
+                    const specificSubjects = typeof comp.specificSubjects === 'string' 
+                        ? comp.specificSubjects 
+                        : (Array.isArray(comp.specificSubjects) ? comp.specificSubjects.join(' ') : '');
+                    
+                    const combinedRaw = (title + ' ' + subject + ' ' + specificSubjects).toLowerCase();
+                    const combinedClean = removeVietnameseTones(combinedRaw);
+
+                    if (!combinedRaw.includes(rawSearch) && !combinedClean.includes(cleanSearch)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+
+            renderCards(filtered);
+        }
+
+        // Tương tác Timeline Tháng
+        function filterByMonth(month, event) {
+            currentFilter.month = month;
+            
             const buttons = document.querySelectorAll('.timeline-btn');
             buttons.forEach(btn => {
                 btn.classList.remove('bg-fpt-blue', 'text-white', 'shadow-sm');
                 btn.classList.add('bg-gray-100', 'text-gray-700');
             });
-            if (window.event && window.event.target) {
-                const target = window.event.target.closest('.timeline-btn');
-                if (target) {
-                    target.classList.remove('bg-gray-100', 'text-gray-700');
-                    target.classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.remove('bg-gray-100', 'text-gray-700');
+                event.currentTarget.classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+            } else {
+                // Nút "Tất cả" là nút đầu tiên
+                if (buttons[0]) {
+                    buttons[0].classList.remove('bg-gray-100', 'text-gray-700');
+                    buttons[0].classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
                 }
             }
 
-            renderCompetitions(month);
+            applyFilters();
+        }
+
+        // Tương tác Bộ lọc Khối
+        function handleGradeFilter(val) {
+            currentFilter.grade = val ? parseInt(val, 10) : null;
+            applyFilters();
+        }
+
+        // Tương tác Bộ lọc Lĩnh vực
+        function handleCategoryFilter(val) {
+            currentFilter.category = val || '';
+            applyFilters();
+        }
+
+        // Tương tác Tìm kiếm
+        function handleSearch(val) {
+            currentFilter.search = val || '';
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) {
+                if (currentFilter.search.trim()) {
+                    clearBtn.classList.remove('hidden');
+                } else {
+                    clearBtn.classList.add('hidden');
+                }
+            }
+            applyFilters();
+        }
+
+        function clearSearchInput() {
+            const input = document.getElementById('searchInput');
+            if (input) {
+                input.value = '';
+            }
+            handleSearch('');
+        }
+
+        // Xóa toàn bộ bộ lọc, trả về mặc định 50 cuộc thi
+        function resetAllFilters() {
+            currentFilter.month = null;
+            currentFilter.grade = null;
+            currentFilter.category = '';
+            currentFilter.search = '';
+
+            const buttons = document.querySelectorAll('.timeline-btn');
+            buttons.forEach((btn, idx) => {
+                if (idx === 0) {
+                    btn.classList.remove('bg-gray-100', 'text-gray-700');
+                    btn.classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+                } else {
+                    btn.classList.remove('bg-fpt-blue', 'text-white', 'shadow-sm');
+                    btn.classList.add('bg-gray-100', 'text-gray-700');
+                }
+            });
+
+            const gradeFilter = document.getElementById('gradeFilter');
+            if (gradeFilter) gradeFilter.value = '';
+
+            const categoryFilter = document.getElementById('categoryFilter');
+            if (categoryFilter) categoryFilter.value = '';
+
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) clearBtn.classList.add('hidden');
+
+            applyFilters();
         }
 
         async function loadCompetitions() {
@@ -340,7 +626,8 @@
                     throw new Error('HTTP ' + response.status);
                 }
                 competitions = await response.json();
-                renderCompetitions(null);
+                populateCategoryOptions();
+                applyFilters();
             } catch (error) {
                 console.error('Không thể tải dữ liệu cuộc thi:', error);
                 if (grid) {
@@ -468,7 +755,7 @@
                 linkBtn.classList.add('hidden');
             }
 
-            // Register button in modal
+            // Nút đăng ký trong modal
             const btnRegister = document.getElementById('modalBtnRegister');
             btnRegister.onclick = function() {
                 closeModal('detailModal');
