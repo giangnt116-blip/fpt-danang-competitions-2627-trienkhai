@@ -75,10 +75,14 @@
     <!-- Header -->
     <header class="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm backdrop-blur-md bg-white/95">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 flex justify-between items-center">
-            <div class="flex items-center gap-2.5 sm:gap-3 min-w-0">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-fpt-blue to-fpt-orange flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-md shrink-0">
-                    F
-                </div>
+            <div class="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+                <img 
+                    src="/assets/branding/fpt-logo.png" 
+                    alt="Logo FPT" 
+                    id="headerFptLogo"
+                    class="h-8 sm:h-10 w-auto object-contain shrink-0" 
+                    onerror="this.style.display='none'"
+                />
                 <div class="min-w-0">
                     <h1 class="text-xs sm:text-base lg:text-lg font-extrabold text-fpt-blue leading-tight tracking-tight line-clamp-2 sm:line-clamp-none break-words">
                         Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng
@@ -95,7 +99,10 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="relative bg-gradient-to-br from-fpt-blue via-blue-900 to-indigo-950 text-white py-6 sm:py-12 lg:py-14 px-4 sm:px-6 lg:px-8 overflow-hidden">
+    <section class="relative bg-fpt-blue text-white py-6 sm:py-12 lg:py-14 px-4 sm:px-6 lg:px-8 overflow-hidden bg-cover bg-center bg-no-repeat" style="background-image: url('/assets/branding/hero-banner.jpg'); background-position: center center;">
+        <!-- Overlay Layer rgba(15, 23, 42, 0.58) -->
+        <div class="absolute inset-0 bg-[#0f172a]/[0.58] pointer-events-none" style="background-color: rgba(15, 23, 42, 0.58);"></div>
+        <!-- Grid Texture Decorative Overlay -->
         <div class="absolute inset-0 opacity-10 pointer-events-none">
             <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -115,10 +122,10 @@
                     KHÁM PHÁ TIỀM NĂNG • KIẾN TẠO TƯƠNG LAI
                 </span>
             </div>
-            <h2 class="text-xl sm:text-3xl lg:text-5xl font-extrabold uppercase tracking-tight leading-tight">
+            <h2 class="text-xl sm:text-3xl lg:text-5xl font-extrabold uppercase tracking-tight leading-tight drop-shadow-md">
                 CỔNG THÔNG TIN CUỘC THI THCS
             </h2>
-            <p class="text-xs sm:text-sm md:text-base text-blue-100 max-w-2xl mx-auto font-normal leading-relaxed line-clamp-3 sm:line-clamp-none">
+            <p class="text-xs sm:text-sm md:text-base text-blue-100 max-w-2xl mx-auto font-normal leading-relaxed line-clamp-3 sm:line-clamp-none drop-shadow">
                 Tổng hợp và cập nhật thông tin các kỳ thi, sân chơi học thuật, nghệ thuật, thể thao và công nghệ dành riêng cho học sinh Khối 6 – 9 Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng.
             </p>
         </div>
