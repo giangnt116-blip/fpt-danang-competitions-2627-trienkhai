@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node dev-server.ts",
+    "dev": "node server.ts",
     "build": "node -e 'console.log(\"Build successful\")'",
     "lint": "node -e 'console.log(\"Linting passed\")'",
-    "start": "node dev-server.ts"
+    "start": "node server.ts"
   },
   "dependencies": {
     "express": "^4.21.2"
