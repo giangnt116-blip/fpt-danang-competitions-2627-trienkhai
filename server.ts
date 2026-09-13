@@ -7,7 +7,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 3000;
+// Trong dev sandbox của AI Studio, Nginx reverse proxy chuyển tiếp traffic tới port 3000.
+// Khi deploy lên Cloud Run production, Cloud Run yêu cầu ứng dụng lắng nghe trên cổng process.env.PORT (mặc định 8080).
+const isDevSandbox = Boolean(process.env.DEFAULT_APP_PORT || process.env.CONTROL_PLANE_PORT);
+const PORT = isDevSandbox
+  ? 3000
+  : (Number(process.env.PORT) || 3000);
 const HOST = '0.0.0.0';
 
 // Ưu tiên phục vụ static assets từ thư mục public/ (tương thích Vercel Production và CDN)
