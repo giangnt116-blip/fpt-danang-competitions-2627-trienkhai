@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng thông tin Cuộc thi THCS - Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng</title>
+    <meta name="description" content="Cổng thông tin và đăng ký các cuộc thi, sân chơi học thuật, nghệ thuật, công nghệ dành riêng cho học sinh cấp Trung học cơ sở (Khối 6 - 9) - Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng.">
+    <meta property="og:title" content="Cổng thông tin Cuộc thi THCS - Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng">
+    <meta property="og:description" content="Cổng thông tin và đăng ký các cuộc thi, sân chơi học thuật, nghệ thuật, công nghệ dành riêng cho học sinh cấp Trung học cơ sở (Khối 6 - 9) - Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fpt-orange': '#f36f21',
+                        'fpt-blue': '#092275',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .toast {
+            visibility: hidden;
+            min-width: 260px;
+            background-color: #4CAF50;
+            color: #fff;
+            text-align: center;
+            border-radius: 12px;
+            padding: 16px 24px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+        .toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 40px;
+        }
+        .modal-body ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .modal-body p {
+            margin-bottom: 0.75rem;
+        }
+        .modal-body strong {
+            color: #092275;
+        }
+        /* Ẩn thanh cuộn ngang trên mobile */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        /* Scroll Viewport Timeline */
+        .timeline-viewport {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            overflow-x: auto;
+            overflow-y: visible;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
+            overscroll-behavior-x: contain;
+            scroll-behavior: smooth;
+        }
+        @media (min-width: 640px) {
+            .timeline-viewport {
+                overflow-x: visible;
+            }
+        }
+        /* Inner Row Timeline */
+        .timeline-inner-row {
+            display: flex;
+            flex-wrap: nowrap;
+            width: max-content;
+            min-width: max-content;
+        }
+        @media (min-width: 640px) {
+            .timeline-inner-row {
+                display: flex;
+                flex-wrap: wrap;
+                width: auto;
+                min-width: 0;
+            }
+        }
+        .timeline-btn {
+            flex: 0 0 auto;
+            white-space: nowrap;
+        }
+        /* Corner badge cho nút Tất cả và các nút Tháng */
+        .timeline-corner-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            min-width: 26px;
+            height: 26px;
+            padding: 0 5px;
+            background-color: #f36f21;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 800;
+            line-height: 26px;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            pointer-events: none;
+            z-index: 10;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .timeline-corner-badge.is-zero {
+            opacity: 0.65;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-gray-800 min-h-screen flex flex-col antialiased">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm backdrop-blur-md bg-white/95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 flex justify-between items-center">
+            <div class="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
+                <img 
+                    src="/assets/branding/fpt-logo.png" 
+                    alt="Logo FPT" 
+                    id="headerFptLogo"
+                    class="h-8 sm:h-10 w-auto object-contain shrink-0" 
+                    onerror="this.style.display='none'"
+                />
+                <div class="min-w-0">
+                    <h1 class="text-xs sm:text-base lg:text-lg font-extrabold text-fpt-blue leading-tight tracking-tight line-clamp-2 sm:line-clamp-none break-words">
+                        Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng
+                    </h1>
+                    <p class="text-[11px] sm:text-xs text-gray-500 font-medium truncate">Hệ thống Giáo dục FPT</p>
+                </div>
+            </div>
+            <div class="hidden sm:flex items-center gap-2 shrink-0">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-fpt-blue border border-blue-100">
+                    Cổng thông tin Cuộc thi THCS
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-fpt-blue text-white py-6 sm:py-12 lg:py-14 px-4 sm:px-6 lg:px-8 overflow-hidden bg-cover bg-center bg-no-repeat" style="background-image: url('/assets/branding/hero-banner.jpg'); background-position: center center;">
+        <!-- Overlay Layer rgba(15, 23, 42, 0.58) -->
+        <div class="absolute inset-0 bg-[#0f172a]/[0.58] pointer-events-none" style="background-color: rgba(15, 23, 42, 0.58);"></div>
+        <!-- Grid Texture Decorative Overlay -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="heroGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#heroGrid)" />
+            </svg>
+        </div>
+        <div class="max-w-4xl mx-auto text-center relative z-10 space-y-2.5 sm:space-y-4">
+            <div class="flex flex-wrap items-center justify-center gap-2">
+                <span class="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-fpt-orange text-white shadow-sm">
+                    NĂM HỌC 2026 - 2027
+                </span>
+                <span class="inline-block px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-white/15 text-blue-100 backdrop-blur-sm border border-white/20">
+                    KHÁM PHÁ TIỀM NĂNG • KIẾN TẠO TƯƠNG LAI
+                </span>
+            </div>
+            <h2 class="text-xl sm:text-3xl lg:text-5xl font-extrabold uppercase tracking-tight leading-tight drop-shadow-md">
+                CỔNG THÔNG TIN CUỘC THI THCS
+            </h2>
+            <p class="text-xs sm:text-sm md:text-base text-blue-100 max-w-2xl mx-auto font-normal leading-relaxed line-clamp-3 sm:line-clamp-none drop-shadow">
+                Tổng hợp và cập nhật thông tin các kỳ thi, sân chơi học thuật, nghệ thuật, thể thao và công nghệ dành riêng cho học sinh Khối 6 – 9 Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng.
+            </p>
+        </div>
+    </section>
+
+    <!-- Timeline Filter Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-5 sm:-mt-6 relative z-20">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 min-w-0">
+            <div class="flex items-center justify-between mb-2 sm:mb-3">
+                <span class="text-xs font-bold text-fpt-blue uppercase tracking-wider flex items-center gap-1.5">
+                    <span>📅</span> LỊCH TRÌNH THEO THÁNG
+                </span>
+                <div class="flex items-center gap-2 sm:hidden">
+                    <span class="text-[11px] text-gray-400 font-medium flex items-center gap-1">
+                        <span>👈</span> Vuốt ngang <span>👉</span>
+                    </span>
+                    <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="scrollTimeline(-1)" aria-label="Cuộn sang trái" class="w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 active:scale-95 text-xs font-bold transition-all select-none">
+                            ‹
+                        </button>
+                        <button type="button" onclick="scrollTimeline(1)" aria-label="Cuộn sang phải" class="w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 active:scale-95 text-xs font-bold transition-all select-none">
+                            ›
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Timeline Scroll Viewport: 100% width, native horizontal swipe on mobile -->
+            <div id="timelineViewport" class="timeline-viewport no-scrollbar pt-2.5 pb-2.5 sm:pt-0 sm:pb-0">
+                <!-- Timeline Inner Row: 1 hàng duy nhất trên mobile (width: max-content), wrap linh hoạt trên desktop -->
+                <div id="timelineContainer" class="timeline-inner-row gap-2.5 sm:gap-3 pl-1 pr-3.5 sm:px-0 items-center">
+                    <button onclick="filterByMonth(null, event)" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-fpt-blue text-white transition-colors duration-200 shadow-sm" id="timelineBtnAll">
+                        <span>Tất cả</span>
+                        <span class="timeline-corner-badge" id="badgeAll">50</span>
+                    </button>
+                    <button onclick="filterByMonth(8, event)" data-month="8" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth8">
+                        <span>Tháng 8</span>
+                        <span class="timeline-corner-badge" id="badgeMonth8">0</span>
+                    </button>
+                    <button onclick="filterByMonth(9, event)" data-month="9" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth9">
+                        <span>Tháng 9</span>
+                        <span class="timeline-corner-badge" id="badgeMonth9">0</span>
+                    </button>
+                    <button onclick="filterByMonth(10, event)" data-month="10" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth10">
+                        <span>Tháng 10</span>
+                        <span class="timeline-corner-badge" id="badgeMonth10">0</span>
+                    </button>
+                    <button onclick="filterByMonth(11, event)" data-month="11" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth11">
+                        <span>Tháng 11</span>
+                        <span class="timeline-corner-badge" id="badgeMonth11">0</span>
+                    </button>
+                    <button onclick="filterByMonth(12, event)" data-month="12" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth12">
+                        <span>Tháng 12</span>
+                        <span class="timeline-corner-badge" id="badgeMonth12">0</span>
+                    </button>
+                    <button onclick="filterByMonth(1, event)" data-month="1" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth1">
+                        <span>Tháng 1</span>
+                        <span class="timeline-corner-badge" id="badgeMonth1">0</span>
+                    </button>
+                    <button onclick="filterByMonth(2, event)" data-month="2" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth2">
+                        <span>Tháng 2</span>
+                        <span class="timeline-corner-badge" id="badgeMonth2">0</span>
+                    </button>
+                    <button onclick="filterByMonth(3, event)" data-month="3" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth3">
+                        <span>Tháng 3</span>
+                        <span class="timeline-corner-badge" id="badgeMonth3">0</span>
+                    </button>
+                    <button onclick="filterByMonth(4, event)" data-month="4" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth4">
+                        <span>Tháng 4</span>
+                        <span class="timeline-corner-badge" id="badgeMonth4">0</span>
+                    </button>
+                    <button onclick="filterByMonth(5, event)" data-month="5" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth5">
+                        <span>Tháng 5</span>
+                        <span class="timeline-corner-badge" id="badgeMonth5">0</span>
+                    </button>
+                    <button onclick="filterByMonth(6, event)" data-month="6" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth6">
+                        <span>Tháng 6</span>
+                        <span class="timeline-corner-badge" id="badgeMonth6">0</span>
+                    </button>
+                    <button onclick="filterByMonth(7, event)" data-month="7" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth7">
+                        <span>Tháng 7</span>
+                        <span class="timeline-corner-badge" id="badgeMonth7">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search & Quick Filters Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 relative z-20">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-gray-100 flex flex-col md:flex-row gap-3 items-stretch md:items-center justify-between">
+            <!-- Search Input -->
+            <div class="relative flex-grow min-w-[240px]">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-gray-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </span>
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Tìm kiếm cuộc thi..." 
+                    aria-label="Tìm kiếm cuộc thi"
+                    oninput="handleSearch(this.value)" 
+                    class="w-full h-11 pl-10 pr-9 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-base sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all"
+                >
+                <button 
+                    id="clearSearchBtn" 
+                    onclick="clearSearchInput()" 
+                    class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                    title="Xóa tìm kiếm"
+                    aria-label="Xóa nội dung tìm kiếm"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Filters Group -->
+            <div class="flex flex-wrap sm:flex-nowrap gap-2.5 items-center">
+                <!-- Grade Filter -->
+                <div class="relative min-w-[130px] flex-1 sm:flex-initial">
+                    <select 
+                        id="gradeFilter" 
+                        onchange="handleGradeFilter(this.value)" 
+                        aria-label="Lọc theo khối lớp"
+                        class="w-full h-11 appearance-none bg-gray-50 border border-gray-200 rounded-xl pl-3.5 pr-8 py-2.5 text-base sm:text-sm font-semibold text-gray-700 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all cursor-pointer"
+                    >
+                        <option value="">Tất cả khối</option>
+                        <option value="6">Khối 6</option>
+                        <option value="7">Khối 7</option>
+                        <option value="8">Khối 8</option>
+                        <option value="9">Khối 9</option>
+                    </select>
+                    <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </span>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="relative min-w-[170px] flex-1 sm:flex-initial">
+                    <select 
+                        id="categoryFilter" 
+                        onchange="handleCategoryFilter(this.value)" 
+                        aria-label="Lọc theo lĩnh vực"
+                        class="w-full h-11 appearance-none bg-gray-50 border border-gray-200 rounded-xl pl-3.5 pr-8 py-2.5 text-base sm:text-sm font-semibold text-gray-700 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 focus:bg-white transition-all cursor-pointer"
+                    >
+                        <option value="">Tất cả lĩnh vực</option>
+                    </select>
+                    <span class="absolute inset-y-0 right-0 pr-2.5 flex items-center pointer-events-none text-gray-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </span>
+                </div>
+
+                <!-- Reset Filters Button -->
+                <button 
+                    id="resetFilterBtn" 
+                    onclick="resetAllFilters()" 
+                    class="hidden items-center gap-1.5 px-3.5 py-2.5 h-11 text-sm font-semibold text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 rounded-xl transition-colors shrink-0"
+                    title="Khôi phục trạng thái mặc định"
+                    aria-label="Xóa tất cả bộ lọc"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    <span>Xóa bộ lọc</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Counter -->
+        <div class="flex justify-between items-center px-1 mt-3 text-xs sm:text-sm font-medium text-gray-500">
+            <span id="resultsCount">Hiển thị 50 / 50 cuộc thi</span>
+        </div>
+    </section>
+
+    <!-- Competition Grid Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
+        <div id="competitionGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            <!-- Rendered by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-100 py-8 px-4 sm:px-6 lg:px-8 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <div>
+                <h3 class="font-bold text-fpt-blue text-sm uppercase">Trường Tiểu học và Trung học cơ sở FPT Đà Nẵng</h3>
+                <p class="text-xs text-gray-500 mt-1">Cổng thông tin Cuộc thi THCS © 2026 - 2027. Bản quyền thuộc Hệ thống Giáo dục FPT.</p>
+            </div>
+            <div class="text-xs text-gray-400">
+                <span>Tôn trọng cá nhân – Khuyến khích đổi mới – Đồng hành phát triển</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal Chi tiết -->
+    <div id="detailModal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex justify-center items-center p-3 sm:p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl sm:rounded-3xl w-full max-w-3xl p-4 sm:p-6 relative transform scale-95 transition-transform duration-300 max-h-[92vh] sm:max-h-[90vh] flex flex-col shadow-2xl" id="detailContent">
+            <button onclick="closeModal('detailModal')" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors z-10" aria-label="Đóng chi tiết cuộc thi">
+                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 id="modalTitle" class="text-lg sm:text-2xl font-bold text-fpt-blue mb-3 sm:mb-4 pr-10 shrink-0 uppercase leading-snug break-words">Tên cuộc thi</h3>
+            <div class="overflow-y-auto pr-1 sm:pr-2 flex-grow space-y-4 sm:space-y-6 text-sm text-gray-700" id="modalBody">
+                <!-- Nội dung chi tiết được tạo tự động bởi JavaScript -->
+            </div>
+            <div class="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 shrink-0" id="modalActions">
+                <div class="flex gap-2 sm:contents">
+                    <button onclick="closeModal('detailModal')" class="flex-1 sm:flex-initial sm:min-w-[100px] h-11 bg-gray-100 text-gray-700 px-4 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors text-sm flex items-center justify-center">Đóng</button>
+                    <a id="modalOfficialLink" href="#" target="_blank" rel="noopener noreferrer" class="hidden flex-1 sm:flex-initial sm:min-w-[170px] h-11 bg-amber-500 text-white px-3.5 py-2.5 rounded-xl font-semibold hover:bg-amber-600 transition-colors text-xs sm:text-sm flex items-center justify-center gap-1.5 truncate">
+                        <span>🌐</span> <span class="truncate">Trang chính thức</span>
+                    </a>
+                </div>
+                <button id="modalBtnRegister" class="w-full sm:flex-1 h-11 bg-fpt-blue text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-blue-800 transition-colors text-sm sm:text-base flex items-center justify-center shadow-sm">Đăng ký ngay</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Form Đăng ký -->
+    <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 z-[100] hidden flex justify-center items-center p-3 sm:p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl sm:rounded-3xl w-full max-w-md p-4 sm:p-6 relative transform scale-95 transition-transform duration-300 shadow-2xl max-h-[92vh] flex flex-col" id="registerContent">
+            <button onclick="closeModal('registerModal')" class="absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 hover:text-gray-700 hover:bg-gray-200 transition-colors z-10" aria-label="Đóng form đăng ký">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <div class="mb-3.5 sm:mb-5 pr-8 shrink-0">
+                <h3 class="text-xl sm:text-2xl font-bold text-fpt-blue leading-snug">Đăng ký tham gia</h3>
+                <p class="text-xs text-gray-500 mt-0.5">Điền thông tin học sinh để ghi danh cuộc thi</p>
+            </div>
+            <form id="registrationForm" onsubmit="submitForm(event)" class="overflow-y-auto pr-1 -mr-1 space-y-3.5 sm:space-y-4 flex-grow">
+                <div>
+                    <label for="regCompetition" class="block text-xs font-bold text-gray-700 uppercase mb-1">Cuộc thi</label>
+                    <input type="text" id="regCompetition" readonly class="w-full h-11 bg-gray-100 border border-gray-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-gray-800 cursor-not-allowed">
+                </div>
+                <div>
+                    <label for="regStudentName" class="block text-xs font-bold text-gray-700 uppercase mb-1">Họ và tên học sinh *</label>
+                    <input type="text" id="regStudentName" required placeholder="Nhập họ và tên học sinh" class="w-full h-11 border border-gray-200 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all">
+                </div>
+                <div>
+                    <label for="regGrade" class="block text-xs font-bold text-gray-700 uppercase mb-1">Khối *</label>
+                    <div class="relative">
+                        <select 
+                            id="regGrade" 
+                            name="grade"
+                            required 
+                            aria-label="Chọn khối học sinh"
+                            onchange="handleRegGradeChange(this.value)"
+                            class="w-full h-11 appearance-none bg-white border border-gray-200 rounded-xl pl-3.5 pr-10 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all cursor-pointer"
+                        >
+                            <option value="">-- Chọn Khối --</option>
+                            <option value="6">Khối 6</option>
+                            <option value="7">Khối 7</option>
+                            <option value="8">Khối 8</option>
+                            <option value="9">Khối 9</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="regClass" class="block text-xs font-bold text-gray-700 uppercase mb-1">Lớp *</label>
+                    <div class="relative">
+                        <select 
+                            id="regClass" 
+                            name="class"
+                            required 
+                            disabled
+                            aria-label="Chọn lớp học sinh"
+                            class="w-full h-11 appearance-none bg-gray-100 border border-gray-200 rounded-xl pl-3.5 pr-10 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all cursor-not-allowed"
+                        >
+                            <option value="">-- Chọn Khối trước --</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3.5 text-gray-400">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label for="regPhone" class="block text-xs font-bold text-gray-700 uppercase mb-1">Số điện thoại phụ huynh *</label>
+                    <input type="tel" id="regPhone" required placeholder="Ví dụ: 0912345678" pattern="[0-9]{10,11}" class="w-full h-11 border border-gray-200 rounded-xl px-3.5 py-2.5 text-base sm:text-sm text-gray-800 focus:outline-none focus:border-fpt-blue focus:ring-2 focus:ring-blue-100 transition-all">
+                </div>
+                <div class="pt-3 pb-1 flex gap-2.5 sm:gap-3 shrink-0">
+                    <button type="button" onclick="closeModal('registerModal')" class="flex-1 h-11 bg-gray-100 text-gray-700 px-4 py-2.5 rounded-xl font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center text-sm sm:text-base">Hủy</button>
+                    <button type="submit" id="submitBtn" class="flex-1 h-11 bg-fpt-orange text-white px-4 py-2.5 rounded-xl font-semibold hover:bg-orange-600 transition-colors flex justify-center items-center text-sm sm:text-base shadow-sm">Xác nhận</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">Đăng ký thành công!</div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // Hệ thống SVG Placeholder theo lĩnh vực chuẩn nhận diện thương hiệu FPT Schools
+        const SVG_PREFIX = "data:image/svg+xml;charset=utf-8,";
+        const CATEGORY_PLACEHOLDERS = {
+            'TOÁN': SVG_PREFIX + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g_math" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#092275"/>
+      <stop offset="55%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <pattern id="grid_math" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#ffffff" stroke-width="0.8" stroke-opacity="0.09"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#g_math)"/>
+  <rect width="600" height="360" fill="url(#grid_math)"/>
+  <g transform="translate(300, 135)">
+    <circle cx="0" cy="0" r="48" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <path d="M-20,-16 L16,-16 L2,0 L16,16 L-20,16" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M-6,4 L-3,16 L3,-2 L11,16" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="20" cy="-18" r="3" fill="#38bdf8"/>
+    <circle cx="-22" cy="20" r="3" fill="#38bdf8"/>
+  </g>
+  <text x="300" y="232" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="18" font-weight="800" letter-spacing="2.5">TOÁN HỌC</text>
+  <text x="300" y="258" text-anchor="middle" fill="#93c5fd" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">HỆ THỐNG GIÁO DỤC FPT</text>
+</svg>`),
+
+            'TIN HỌC, CÔNG NGHỆ, STEM': SVG_PREFIX + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g_stem" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b192c"/>
+      <stop offset="60%" stop-color="#0e7490"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <pattern id="grid_stem" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1.2" fill="#ffffff" fill-opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#g_stem)"/>
+  <rect width="600" height="360" fill="url(#grid_stem)"/>
+  <g transform="translate(300, 135)">
+    <circle cx="0" cy="0" r="48" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <rect x="-20" y="-20" width="40" height="40" rx="8" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+    <path d="M-10,-5 L-15,0 L-10,5" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10,-5 L15,0 L10,5" fill="none" stroke="#22d3ee" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M2,-7 L-2,7" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+    <path d="M-12,-20 L-12,-26 M0,-20 L0,-26 M12,-20 L12,-26 M-12,20 L-12,26 M0,20 L0,26 M12,20 L12,26" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/>
+    <path d="M-20,-12 L-26,-12 M-20,0 L-26,0 M-20,12 L-26,12 M20,-12 L26,-12 M20,0 L26,0 M20,12 L26,12" stroke="#22d3ee" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <text x="300" y="232" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="18" font-weight="800" letter-spacing="2.5">TIN HỌC &amp; STEM</text>
+  <text x="300" y="258" text-anchor="middle" fill="#67e8f9" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">HỆ THỐNG GIÁO DỤC FPT</text>
+</svg>`),
+
+            'TIẾNG ANH': SVG_PREFIX + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g_eng" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#092275"/>
+      <stop offset="60%" stop-color="#c2410c"/>
+      <stop offset="100%" stop-color="#f97316"/>
+    </linearGradient>
+    <pattern id="grid_eng" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 0 12 L 24 12" fill="none" stroke="#ffffff" stroke-width="0.8" stroke-opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#g_eng)"/>
+  <rect width="600" height="360" fill="url(#grid_eng)"/>
+  <g transform="translate(300, 135)">
+    <circle cx="0" cy="0" r="48" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <path d="M-24,-10 C-24,-20 -12,-22 0,-22 C12,-22 24,-20 24,-10 C24,0 12,8 0,8 C-6,8 -12,7 -15,5 L-22,8 L-20,1 C-23,-2 -24,-6 -24,-10 Z" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="0" y="-3" text-anchor="middle" fill="#fdba74" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="15" font-weight="800" letter-spacing="2">ABC</text>
+    <circle cx="15" cy="11" r="11" fill="#ea580c" stroke="#ffffff" stroke-width="1.8"/>
+    <path d="M11,11 L19,11 M15,7 L15,15" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+  <text x="300" y="232" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="18" font-weight="800" letter-spacing="2.5">TIẾNG ANH</text>
+  <text x="300" y="258" text-anchor="middle" fill="#fed7aa" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">HỆ THỐNG GIÁO DỤC FPT</text>
+</svg>`),
+
+            'KHOA HỌC TỰ NHIÊN': SVG_PREFIX + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g_sci" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="60%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#0d9488"/>
+    </linearGradient>
+    <pattern id="grid_sci" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1.2" fill="#ffffff" fill-opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#g_sci)"/>
+  <rect width="600" height="360" fill="url(#grid_sci)"/>
+  <g transform="translate(300, 135)">
+    <circle cx="0" cy="0" r="48" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <ellipse cx="0" cy="0" rx="26" ry="9" fill="none" stroke="#6ee7b7" stroke-width="2" transform="rotate(30)"/>
+    <ellipse cx="0" cy="0" rx="26" ry="9" fill="none" stroke="#6ee7b7" stroke-width="2" transform="rotate(-30)"/>
+    <ellipse cx="0" cy="0" rx="26" ry="9" fill="none" stroke="#ffffff" stroke-width="2" transform="rotate(90)"/>
+    <circle cx="0" cy="0" r="4.5" fill="#34d399"/>
+  </g>
+  <text x="300" y="232" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="18" font-weight="800" letter-spacing="2.5">KHOA HỌC TỰ NHIÊN</text>
+  <text x="300" y="258" text-anchor="middle" fill="#a7f3d0" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">HỆ THỐNG GIÁO DỤC FPT</text>
+</svg>`),
+
+            'PDP': SVG_PREFIX + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g_pdp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#701a75"/>
+      <stop offset="55%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <pattern id="grid_pdp" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 0 0 L 24 24 M 24 0 L 0 24" fill="none" stroke="#ffffff" stroke-width="0.7" stroke-opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#g_pdp)"/>
+  <rect width="600" height="360" fill="url(#grid_pdp)"/>
+  <g transform="translate(300, 135)">
+    <circle cx="0" cy="0" r="48" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <path d="M-13,-20 L13,-20 L15,-5 C15,6 7,13 0,13 C-7,13 -15,6 -15,-5 Z" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M-13,-16 L-20,-16 C-23,-16 -24,-9 -19,-5 L-15,-4" fill="none" stroke="#fde047" stroke-width="2"/>
+    <path d="M13,-16 L20,-16 C23,-16 24,-9 19,-5 L15,-4" fill="none" stroke="#fde047" stroke-width="2"/>
+    <path d="M0,13 L0,21 M-9,21 L9,21" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <polygon points="0,-11 2.5,-5.5 8,-5.5 3.5,-2 5.5,3.5 0,0 -5.5,3.5 -3.5,-2 -8,-5.5 -2.5,-5.5" fill="#fde047"/>
+  </g>
+  <text x="300" y="232" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="18" font-weight="800" letter-spacing="2.5">KỸ NĂNG &amp; THỂ THAO (PDP)</text>
+  <text x="300" y="258" text-anchor="middle" fill="#fed7aa" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">HỆ THỐNG GIÁO DỤC FPT</text>
+</svg>`),
+
+            'KHOA HỌC XÃ HỘI': SVG_PREFIX + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g_soc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4c0519"/>
+      <stop offset="60%" stop-color="#881337"/>
+      <stop offset="100%" stop-color="#be123c"/>
+    </linearGradient>
+    <pattern id="grid_soc" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 0 12 L 24 12" fill="none" stroke="#ffffff" stroke-width="0.7" stroke-opacity="0.08"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#g_soc)"/>
+  <rect width="600" height="360" fill="url(#grid_soc)"/>
+  <g transform="translate(300, 135)">
+    <circle cx="0" cy="0" r="48" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <path d="M-22,9 C-13,5 0,5 0,5 C0,5 13,5 22,9 L22,-14 C13,-18 0,-18 0,-18 C0,-18 -13,-18 -22,-14 Z" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="0" y1="-18" x2="0" y2="5" stroke="#ffffff" stroke-width="2"/>
+    <path d="M5,-5 L16,-5 M5,-10 L16,-10 M-16,-5 L-5,-5 M-16,-10 L-5,-10" stroke="#fda4af" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M10,4 L20,-7 C22,-9 24,-7 22,-5 L13,6 Z" fill="#fda4af"/>
+  </g>
+  <text x="300" y="232" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="18" font-weight="800" letter-spacing="2.5">KHOA HỌC XÃ HỘI</text>
+  <text x="300" y="258" text-anchor="middle" fill="#fecdd3" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">HỆ THỐNG GIÁO DỤC FPT</text>
+</svg>`),
+
+            'ĐA MÔN / KHÁC': SVG_PREFIX + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g_multi" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="55%" stop-color="#4338ca"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <pattern id="grid_multi" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1.2" fill="#ffffff" fill-opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#g_multi)"/>
+  <rect width="600" height="360" fill="url(#grid_multi)"/>
+  <g transform="translate(300, 135)">
+    <circle cx="0" cy="0" r="48" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <polygon points="0,-16 22,-5 0,6 -22,-5" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M-14,-1 L-14,11 C-14,17 0,20 0,20 C0,20 14,17 14,11 L14,-1" fill="none" stroke="#c4b5fd" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M22,-5 L26,-2 L26,13" fill="none" stroke="#c4b5fd" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="26" cy="15" r="2.5" fill="#fde047"/>
+  </g>
+  <text x="300" y="232" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="18" font-weight="800" letter-spacing="2.5">ĐA MÔN &amp; TỔNG HỢP</text>
+  <text x="300" y="258" text-anchor="middle" fill="#c4b5fd" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">HỆ THỐNG GIÁO DỤC FPT</text>
+</svg>`),
+
+            'DEFAULT': SVG_PREFIX + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 360" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g_def" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#092275"/>
+      <stop offset="60%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#f36f21"/>
+    </linearGradient>
+    <pattern id="grid_def" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="12" cy="12" r="1.2" fill="#ffffff" fill-opacity="0.1"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="360" fill="url(#g_def)"/>
+  <rect width="600" height="360" fill="url(#grid_def)"/>
+  <g transform="translate(300, 135)">
+    <circle cx="0" cy="0" r="48" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.2"/>
+    <polygon points="0,-16 22,-5 0,6 -22,-5" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M-14,-1 L-14,11 C-14,17 0,20 0,20 C0,20 14,17 14,11 L14,-1" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="0" cy="2" r="3" fill="#f36f21"/>
+  </g>
+  <text x="300" y="232" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="18" font-weight="800" letter-spacing="2.5">CUỘC THI HỌC THUẬT</text>
+  <text x="300" y="258" text-anchor="middle" fill="#fed7aa" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">HỆ THỐNG GIÁO DỤC FPT</text>
+</svg>`)
+        };
+
+        // Lấy placeholder SVG theo từng lĩnh vực, fallback về placeholder chung nếu không xác định
+        function getCategoryPlaceholder(category) {
+            if (category && CATEGORY_PLACEHOLDERS[category]) {
+                return CATEGORY_PLACEHOLDERS[category];
+            }
+            return CATEGORY_PLACEHOLDERS['DEFAULT'];
+        }
+
+        const FPT_PLACEHOLDER_SVG = CATEGORY_PLACEHOLDERS['DEFAULT'];
+
+        // Danh sách tên thân thiện cho các lĩnh vực lấy từ dữ liệu thực tế
+        const CATEGORY_LABELS = {
+            'TOÁN': 'Toán học',
+            'TIN HỌC, CÔNG NGHỆ, STEM': 'Tin học & STEM',
+            'TIẾNG ANH': 'Tiếng Anh',
+            'KHOA HỌC TỰ NHIÊN': 'Khoa học Tự nhiên',
+            'KHOA HỌC XÃ HỘI': 'Khoa học Xã hội & Văn học',
+            'PDP': 'Kỹ năng & Thể thao (PDP)',
+            'ĐA MÔN / KHÁC': 'Đa môn & Tổng hợp'
+        };
+
+        let competitions = [];
+
+        // Quản lý trạng thái bộ lọc kết hợp
+        const currentFilter = {
+            month: null,    // null = tất cả tháng, hoặc 1..12
+            grade: null,    // null = tất cả khối, hoặc 6, 7, 8, 9
+            category: '',   // '' = tất cả lĩnh vực, hoặc tên category
+            search: ''      // từ khóa tìm kiếm
+        };
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        // Loại bỏ dấu tiếng Việt để tìm kiếm thuận tiện không dấu
+        function removeVietnameseTones(str) {
+            if (!str) return '';
+            str = str.toLowerCase();
+            str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            str = str.replace(/[đĐ]/g, 'd');
+            return str.trim();
+        }
+
+        function getCompetitionTime(comp) {
+            if (comp.examDateText && comp.examDateText.trim()) {
+                return comp.examDateText.trim();
+            }
+            if (comp.registrationText && comp.registrationText.trim()) {
+                return comp.registrationText.trim();
+            }
+            return 'Thời gian đang cập nhật';
+        }
+
+        // Tự động khởi tạo danh sách lĩnh vực từ dữ liệu thực tế trong competitions
+        function populateCategoryOptions() {
+            const select = document.getElementById('categoryFilter');
+            if (!select) return;
+            
+            const uniqueCats = Array.from(new Set(competitions.map(c => c.category).filter(Boolean)));
+            select.innerHTML = '<option value="">Tất cả lĩnh vực</option>';
+            uniqueCats.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = CATEGORY_LABELS[cat] || cat;
+                select.appendChild(option);
+            });
+        }
+
+        // Hiển thị danh sách card với chiều cao và layout đồng bộ
+        function renderCards(filtered) {
+            const grid = document.getElementById('competitionGrid');
+            const countEl = document.getElementById('resultsCount');
+            
+            if (countEl) {
+                countEl.textContent = `Hiển thị ${filtered.length} / ${competitions.length} cuộc thi`;
+            }
+
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full py-16 text-center">
+                        <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center text-2xl text-gray-400">🔍</div>
+                        <h4 class="text-base font-bold text-gray-700 mb-1">Không tìm thấy cuộc thi phù hợp.</h4>
+                        <p class="text-sm text-gray-500 max-w-md mx-auto">Vui lòng thử thay đổi từ khóa tìm kiếm hoặc điều chỉnh lại các tiêu chí bộ lọc.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach((comp) => {
+                const index = competitions.indexOf(comp);
+                const displayTime = getCompetitionTime(comp);
+                const categoryPlaceholder = getCategoryPlaceholder(comp.category);
+                const imgSrc = (comp.image && comp.image.trim()) ? comp.image.trim() : categoryPlaceholder;
+
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full";
+                card.innerHTML = `
+                    <div class="relative h-48 overflow-hidden bg-gray-200 shrink-0">
+                        <img src="${escapeHtml(imgSrc)}" data-category="${escapeHtml(comp.category || '')}" onerror="this.onerror=null; this.src=getCategoryPlaceholder(this.dataset.category);" alt="${escapeHtml(comp.title)}" class="w-full h-full object-cover">
+                        <div class="absolute top-3 right-3 bg-white/95 px-3 py-1 rounded-full text-xs font-bold text-fpt-blue shadow-sm backdrop-blur-sm max-w-[70%] truncate" title="${escapeHtml(comp.subject || 'Tổng hợp')}">
+                            ${escapeHtml(comp.subject || 'Tổng hợp')}
+                        </div>
+                    </div>
+                    <div class="p-5 sm:p-6 flex flex-col flex-grow">
+                        <span class="text-xs font-bold text-fpt-orange uppercase tracking-wider mb-2 shrink-0 truncate" title="ĐỐI TƯỢNG: ${escapeHtml(comp.target || 'Đang cập nhật')}">
+                            ĐỐI TƯỢNG: ${escapeHtml(comp.target || 'Đang cập nhật')}
+                        </span>
+                        <h4 class="text-base sm:text-lg font-bold text-fpt-blue uppercase leading-snug mb-3 line-clamp-2 min-h-[3.25rem] flex items-center" title="${escapeHtml(comp.title)}">
+                            ${escapeHtml(comp.title)}
+                        </h4>
+                        <div class="space-y-2 mb-5 shrink-0">
+                            <p class="text-gray-500 text-sm flex items-start gap-2 line-clamp-2 min-h-[2.6rem]" title="${escapeHtml(displayTime)}">
+                                <span class="shrink-0 mt-0.5">🕒</span>
+                                <span class="break-words">${escapeHtml(displayTime)}</span>
+                            </p>
+                            <p class="text-gray-500 text-sm flex items-center gap-2 truncate" title="Lệ phí: ${escapeHtml(comp.fee || 'Đang cập nhật')}">
+                                <span class="shrink-0">💰</span>
+                                <span class="truncate">Lệ phí: ${escapeHtml(comp.fee || 'Đang cập nhật')}</span>
+                            </p>
+                        </div>
+                        <div class="flex gap-2 mt-auto pt-4 border-t border-gray-100 shrink-0">
+                            <button onclick="openModal(${index})" class="flex-1 border-2 border-fpt-blue text-fpt-blue px-2 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50 transition-colors">Chi tiết</button>
+                            <button onclick="openRegisterByIndex(${index})" class="flex-1 bg-fpt-blue text-white px-2 py-2 rounded-lg font-semibold text-sm hover:bg-blue-800 transition-colors">Đăng ký</button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Áp dụng bộ lọc kết hợp đồng thời: Month AND Grade AND Category AND SearchText
+        function applyFilters() {
+            const isFiltered = (currentFilter.month !== null) || 
+                               (currentFilter.grade !== null) || 
+                               (currentFilter.category !== '') || 
+                               (currentFilter.search.trim() !== '');
+
+            const resetBtn = document.getElementById('resetFilterBtn');
+            if (resetBtn) {
+                if (isFiltered) {
+                    resetBtn.classList.remove('hidden');
+                    resetBtn.classList.add('inline-flex');
+                } else {
+                    resetBtn.classList.add('hidden');
+                    resetBtn.classList.remove('inline-flex');
+                }
+            }
+
+            const cleanSearch = removeVietnameseTones(currentFilter.search);
+            const rawSearch = currentFilter.search.toLowerCase().trim();
+
+            const filtered = competitions.filter(comp => {
+                // 1. Lọc theo tháng
+                if (currentFilter.month !== null) {
+                    if (!Array.isArray(comp.activeMonths) || !comp.activeMonths.includes(currentFilter.month)) {
+                        return false;
+                    }
+                }
+                // 2. Lọc theo khối lớp
+                if (currentFilter.grade !== null) {
+                    if (!Array.isArray(comp.targetGrades) || !comp.targetGrades.includes(currentFilter.grade)) {
+                        return false;
+                    }
+                }
+                // 3. Lọc theo lĩnh vực
+                if (currentFilter.category !== '') {
+                    if (comp.category !== currentFilter.category) {
+                        return false;
+                    }
+                }
+                // 4. Lọc theo từ khóa tìm kiếm (title, subject, specificSubjects)
+                if (rawSearch !== '') {
+                    const title = comp.title || '';
+                    const subject = comp.subject || '';
+                    const specificSubjects = typeof comp.specificSubjects === 'string' 
+                        ? comp.specificSubjects 
+                        : (Array.isArray(comp.specificSubjects) ? comp.specificSubjects.join(' ') : '');
+                    
+                    const combinedRaw = (title + ' ' + subject + ' ' + specificSubjects).toLowerCase();
+                    const combinedClean = removeVietnameseTones(combinedRaw);
+
+                    if (!combinedRaw.includes(rawSearch) && !combinedClean.includes(cleanSearch)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+
+            renderCards(filtered);
+            updateTimelineBadges();
+        }
+
+        // Cập nhật số lượng trên corner badge của nút Tất cả và các nút Tháng
+        function updateTimelineBadges() {
+            if (!Array.isArray(competitions)) return;
+
+            const cleanSearch = removeVietnameseTones(currentFilter.search);
+            const rawSearch = currentFilter.search.toLowerCase().trim();
+
+            // Lọc danh sách thỏa mãn Grade, Category, Search (bỏ qua filter Tháng)
+            const matchedNonMonth = competitions.filter(comp => {
+                // Lọc theo khối lớp
+                if (currentFilter.grade !== null) {
+                    if (!Array.isArray(comp.targetGrades) || !comp.targetGrades.includes(currentFilter.grade)) {
+                        return false;
+                    }
+                }
+                // Lọc theo lĩnh vực
+                if (currentFilter.category !== '') {
+                    if (comp.category !== currentFilter.category) {
+                        return false;
+                    }
+                }
+                // Lọc theo từ khóa tìm kiếm
+                if (rawSearch !== '') {
+                    const title = comp.title || '';
+                    const subject = comp.subject || '';
+                    const specificSubjects = typeof comp.specificSubjects === 'string' 
+                        ? comp.specificSubjects 
+                        : (Array.isArray(comp.specificSubjects) ? comp.specificSubjects.join(' ') : '');
+                    
+                    const combinedRaw = (title + ' ' + subject + ' ' + specificSubjects).toLowerCase();
+                    const combinedClean = removeVietnameseTones(combinedRaw);
+
+                    if (!combinedRaw.includes(rawSearch) && !combinedClean.includes(cleanSearch)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+
+            // 1. Cập nhật badge "Tất cả"
+            const badgeAll = document.getElementById('badgeAll');
+            if (badgeAll) {
+                const totalCount = matchedNonMonth.length;
+                badgeAll.textContent = totalCount;
+                if (totalCount === 0) {
+                    badgeAll.classList.add('is-zero');
+                } else {
+                    badgeAll.classList.remove('is-zero');
+                }
+            }
+
+            // 2. Cập nhật badge từng tháng theo số lượng cuộc thi hoạt động trong tháng đó
+            const months = [8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7];
+            months.forEach(m => {
+                const badgeM = document.getElementById(`badgeMonth${m}`);
+                if (badgeM) {
+                    const countM = matchedNonMonth.filter(comp => 
+                        Array.isArray(comp.activeMonths) && comp.activeMonths.includes(m)
+                    ).length;
+                    badgeM.textContent = countM;
+                    if (countM === 0) {
+                        badgeM.classList.add('is-zero');
+                    } else {
+                        badgeM.classList.remove('is-zero');
+                    }
+                }
+            });
+        }
+
+        // Cuộn timeline viewport trên mobile bằng nút mũi tên
+        function scrollTimeline(direction) {
+            const viewport = document.getElementById('timelineViewport');
+            if (viewport) {
+                viewport.scrollBy({
+                    left: direction * 220,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Tương tác Timeline Tháng
+        function filterByMonth(month, event) {
+            currentFilter.month = month;
+            
+            const buttons = document.querySelectorAll('.timeline-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-fpt-blue', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-gray-100', 'text-gray-700');
+            });
+
+            const viewport = document.getElementById('timelineViewport');
+
+            if (event && event.currentTarget) {
+                const activeBtn = event.currentTarget;
+                activeBtn.classList.remove('bg-gray-100', 'text-gray-700');
+                activeBtn.classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+
+                if (viewport && window.innerWidth < 640) {
+                    const btnLeft = activeBtn.offsetLeft;
+                    const btnWidth = activeBtn.offsetWidth;
+                    const vpWidth = viewport.clientWidth;
+                    const targetLeft = Math.max(0, btnLeft - (vpWidth / 2) + (btnWidth / 2));
+                    viewport.scrollTo({
+                        left: targetLeft,
+                        behavior: 'smooth'
+                    });
+                }
+            } else {
+                // Nút "Tất cả" là nút đầu tiên
+                if (buttons[0]) {
+                    buttons[0].classList.remove('bg-gray-100', 'text-gray-700');
+                    buttons[0].classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+                }
+                if (viewport && window.innerWidth < 640) {
+                    viewport.scrollTo({
+                        left: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            applyFilters();
+        }
+
+        // Tương tác Bộ lọc Khối
+        function handleGradeFilter(val) {
+            currentFilter.grade = val ? parseInt(val, 10) : null;
+            applyFilters();
+        }
+
+        // Tương tác Bộ lọc Lĩnh vực
+        function handleCategoryFilter(val) {
+            currentFilter.category = val || '';
+            applyFilters();
+        }
+
+        // Tương tác Tìm kiếm
+        function handleSearch(val) {
+            currentFilter.search = val || '';
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) {
+                if (currentFilter.search.trim()) {
+                    clearBtn.classList.remove('hidden');
+                } else {
+                    clearBtn.classList.add('hidden');
+                }
+            }
+            applyFilters();
+        }
+
+        function clearSearchInput() {
+            const input = document.getElementById('searchInput');
+            if (input) {
+                input.value = '';
+            }
+            handleSearch('');
+        }
+
+        // Xóa toàn bộ bộ lọc, trả về mặc định 50 cuộc thi
+        function resetAllFilters() {
+            currentFilter.month = null;
+            currentFilter.grade = null;
+            currentFilter.category = '';
+            currentFilter.search = '';
+
+            const buttons = document.querySelectorAll('.timeline-btn');
+            buttons.forEach((btn, idx) => {
+                if (idx === 0) {
+                    btn.classList.remove('bg-gray-100', 'text-gray-700');
+                    btn.classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+                } else {
+                    btn.classList.remove('bg-fpt-blue', 'text-white', 'shadow-sm');
+                    btn.classList.add('bg-gray-100', 'text-gray-700');
+                }
+            });
+
+            const gradeFilter = document.getElementById('gradeFilter');
+            if (gradeFilter) gradeFilter.value = '';
+
+            const categoryFilter = document.getElementById('categoryFilter');
+            if (categoryFilter) categoryFilter.value = '';
+
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) clearBtn.classList.add('hidden');
+
+            const viewport = document.getElementById('timelineViewport');
+            if (viewport && window.innerWidth < 640) {
+                viewport.scrollTo({ left: 0, behavior: 'smooth' });
+            }
+
+            applyFilters();
+        }
+
+        async function loadCompetitions() {
+            const grid = document.getElementById('competitionGrid');
+            if (grid) {
+                grid.innerHTML = `<div class="col-span-full text-center py-12 text-gray-500 text-base">Đang tải danh sách cuộc thi...</div>`;
+            }
+            try {
+                let response = await fetch('/data/competitions.json');
+                if (!response.ok) {
+                    response = await fetch('data/competitions.json');
+                }
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                competitions = await response.json();
+                populateCategoryOptions();
+                applyFilters();
+            } catch (error) {
+                console.error('Không thể tải dữ liệu cuộc thi:', error);
+                if (grid) {
+                    grid.innerHTML = `<div class="col-span-full text-center py-12 text-red-600 font-semibold text-base">Không thể tải dữ liệu cuộc thi. Vui lòng thử lại sau.</div>`;
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCompetitions);
+
+        function openModal(index) {
+            const comp = competitions[index];
+            if (!comp) return;
+
+            document.getElementById('modalTitle').textContent = comp.title;
+
+            const infoItems = [
+                { label: 'ĐỐI TƯỢNG', value: comp.target || 'Đang cập nhật', highlight: 'text-gray-800' },
+                { label: 'MÔN / LĨNH VỰC', value: comp.subject || 'Đang cập nhật', highlight: 'text-fpt-blue' },
+                { label: 'CẤP ĐỘ', value: comp.level || 'Đang cập nhật', highlight: 'text-gray-800' },
+                { label: 'LỆ PHÍ', value: comp.fee || 'Đang cập nhật', highlight: 'text-red-600' },
+                { label: 'THỜI GIAN ĐĂNG KÝ', value: comp.registrationText || 'Đang cập nhật', highlight: 'text-gray-800' },
+                { label: 'THỜI GIAN THI', value: comp.examDateText || 'Đang cập nhật', highlight: 'text-fpt-orange' },
+                { label: 'NGÔN NGỮ', value: comp.language || 'Đang cập nhật', highlight: 'text-gray-800' },
+                { label: 'ĐƠN VỊ PHỤ TRÁCH', value: comp.department || 'Đang cập nhật', highlight: 'text-gray-800' }
+            ];
+
+            let html = `
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 bg-gray-50 p-4 rounded-2xl border border-gray-100">
+                    ${infoItems.map(item => `
+                        <div class="space-y-1">
+                            <span class="block text-[11px] font-bold text-gray-500 uppercase tracking-wider">${item.label}</span>
+                            <span class="text-sm font-bold ${item.highlight} block leading-snug">${escapeHtml(item.value)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Awards Summary
+            if (comp.awardsSummary && comp.awardsSummary.trim()) {
+                html += `
+                    <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-4">
+                        <h4 class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                            <span>🏆</span> Cơ cấu giải thưởng &amp; Quyền lợi
+                        </h4>
+                        <p class="text-sm font-semibold text-gray-800 leading-relaxed">${escapeHtml(comp.awardsSummary)}</p>
+                    </div>
+                `;
+            }
+
+            // Rounds (F: Nếu rounds.length > 0)
+            if (Array.isArray(comp.rounds) && comp.rounds.length > 0) {
+                html += `
+                    <div class="border-t border-gray-100 pt-4">
+                        <h4 class="text-sm font-extrabold text-fpt-blue uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <span>🚩</span> CÁC VÒNG / CẤP THI
+                        </h4>
+                        <div class="space-y-3">
+                            ${comp.rounds.map((r, idx) => `
+                                <div class="bg-blue-50/50 border border-blue-100/80 rounded-xl p-3.5 text-sm">
+                                    <div class="font-bold text-fpt-blue mb-2 flex items-center gap-2">
+                                        <span class="w-5 h-5 rounded-full bg-fpt-blue text-white text-xs flex items-center justify-center font-bold">${idx + 1}</span>
+                                        <span>${escapeHtml(r.name)}</span>
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-700">
+                                        <div><span class="text-gray-500 font-medium">Thời gian đăng ký:</span> <span class="font-semibold text-gray-800">${escapeHtml(r.registrationText || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Thời gian thi:</span> <span class="font-semibold text-fpt-orange">${escapeHtml(r.examDateText || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Cấp độ:</span> <span class="font-semibold text-gray-800">${escapeHtml(r.level || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Lệ phí:</span> <span class="font-semibold text-red-600">${escapeHtml(r.fee || "Đang cập nhật")}</span></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Tracks (G: Nếu tracks.length > 0)
+            if (Array.isArray(comp.tracks) && comp.tracks.length > 0) {
+                html += `
+                    <div class="border-t border-gray-100 pt-4">
+                        <h4 class="text-sm font-extrabold text-fpt-blue uppercase tracking-wider mb-3 flex items-center gap-2">
+                            <span>📑</span> MÔN / BẢNG / NHÁNH THI
+                        </h4>
+                        <div class="space-y-3">
+                            ${comp.tracks.map((t) => `
+                                <div class="bg-gray-50 border border-gray-200/80 rounded-xl p-3.5 text-sm">
+                                    <div class="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                                        <span class="w-2 h-2 rounded-full bg-fpt-orange"></span>
+                                        <span>${escapeHtml(t.name)}</span>
+                                        ${t.subject ? `<span class="text-xs bg-blue-100 text-fpt-blue px-2 py-0.5 rounded-full font-medium">${escapeHtml(t.subject)}</span>` : ''}
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-gray-700">
+                                        <div><span class="text-gray-500 font-medium">Thời gian đăng ký:</span> <span class="font-semibold text-gray-800">${escapeHtml(t.registrationText || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Thời gian thi:</span> <span class="font-semibold text-fpt-orange">${escapeHtml(t.examDateText || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Cấp độ:</span> <span class="font-semibold text-gray-800">${escapeHtml(t.level || "Đang cập nhật")}</span></div>
+                                        <div><span class="text-gray-500 font-medium">Lệ phí:</span> <span class="font-semibold text-red-600">${escapeHtml(t.fee || "Đang cập nhật")}</span></div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Description (H)
+            const descContent = (comp.desc && comp.desc.trim()) ? comp.desc : '<p class="italic text-gray-500">Thông tin chi tiết đang được cập nhật.</p>';
+            html += `
+                <div class="border-t border-gray-100 pt-4">
+                    <h4 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">GIỚI THIỆU CHI TIẾT</h4>
+                    <div class="text-gray-700 text-sm leading-relaxed modal-body">
+                        ${descContent}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modalBody').innerHTML = html;
+
+            // Official Link (I: Chỉ hiển thị nút khi bắt đầu bằng http:// hoặc https://)
+            const linkBtn = document.getElementById('modalOfficialLink');
+            if (comp.officialLink && /^https?:\/\//i.test(comp.officialLink.trim())) {
+                linkBtn.href = comp.officialLink.trim();
+                linkBtn.classList.remove('hidden');
+            } else {
+                linkBtn.classList.add('hidden');
+            }
+
+            // Nút đăng ký trong modal
+            const btnRegister = document.getElementById('modalBtnRegister');
+            btnRegister.onclick = function() {
+                closeModal('detailModal');
+                setTimeout(() => { openRegister(comp.title); }, 300);
+            };
+
+            const modal = document.getElementById('detailModal');
+            const content = document.getElementById('detailContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        // Danh sách lớp chính thức theo khối - THCS FPT Đà Nẵng
+        const GRADE_CLASSES = {
+            '6': ['6A1', '6A2', '6A3', '6A4', '6A5', '6A6', '6A7', '6A8', '6A9', '6A10', '6A11', '6A12', '6A13', '6A14'],
+            '7': ['7A1', '7A2', '7A3', '7A4', '7A5', '7A6', '7A7', '7A8', '7A9', '7A10', '7A11', '7A12', '7A13'],
+            '8': ['8A1', '8A2', '8A3', '8A4', '8A5', '8A6', '8A7', '8A8', '8A9', '8A10', '8A11', '8A12', '8A13'],
+            '9': ['9A1', '9A2', '9A3', '9A4', '9A5', '9A6', '9A7', '9A8', '9A9', '9A10', '9A11', '9A12', '9A13']
+        };
+
+        function handleRegGradeChange(grade) {
+            const classSelect = document.getElementById('regClass');
+            if (!classSelect) return;
+
+            classSelect.setCustomValidity('');
+            classSelect.innerHTML = '';
+
+            if (!grade || !GRADE_CLASSES[grade]) {
+                classSelect.disabled = true;
+                classSelect.classList.remove('bg-white', 'cursor-pointer');
+                classSelect.classList.add('bg-gray-100', 'cursor-not-allowed');
+
+                const defaultOpt = document.createElement('option');
+                defaultOpt.value = '';
+                defaultOpt.textContent = '-- Chọn Khối trước --';
+                classSelect.appendChild(defaultOpt);
+            } else {
+                classSelect.disabled = false;
+                classSelect.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                classSelect.classList.add('bg-white', 'cursor-pointer');
+
+                const defaultOpt = document.createElement('option');
+                defaultOpt.value = '';
+                defaultOpt.textContent = '-- Chọn Lớp --';
+                classSelect.appendChild(defaultOpt);
+
+                GRADE_CLASSES[grade].forEach(cls => {
+                    const opt = document.createElement('option');
+                    opt.value = cls;
+                    opt.textContent = cls;
+                    classSelect.appendChild(opt);
+                });
+            }
+            classSelect.value = '';
+        }
+
+        function openRegisterByIndex(index) {
+            if (competitions[index]) {
+                openRegister(competitions[index].title);
+            }
+        }
+
+        function openRegister(competitionName) {
+            const form = document.getElementById('registrationForm');
+            if (form) form.reset();
+            const gradeSelect = document.getElementById('regGrade');
+            if (gradeSelect) {
+                gradeSelect.value = '';
+                gradeSelect.setCustomValidity('');
+            }
+            handleRegGradeChange('');
+
+            document.getElementById('regCompetition').value = competitionName;
+            const modal = document.getElementById('registerModal');
+            const content = document.getElementById('registerContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const content = modal.children[0];
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => { 
+                modal.classList.add('hidden'); 
+                if (modalId === 'registerModal') {
+                    const form = document.getElementById('registrationForm');
+                    if (form) form.reset();
+                    const gradeSelect = document.getElementById('regGrade');
+                    if (gradeSelect) {
+                        gradeSelect.value = '';
+                        gradeSelect.setCustomValidity('');
+                    }
+                    handleRegGradeChange('');
+                }
+            }, 300);
+        }
+
+        function submitForm(e) {
+            e.preventDefault();
+            const form = document.getElementById('registrationForm');
+            const gradeSelect = document.getElementById('regGrade');
+            const classSelect = document.getElementById('regClass');
+
+            // Reset custom validities before checking
+            if (gradeSelect) gradeSelect.setCustomValidity('');
+            if (classSelect) classSelect.setCustomValidity('');
+
+            if (!gradeSelect || !gradeSelect.value) {
+                if (gradeSelect) {
+                    gradeSelect.setCustomValidity('Vui lòng chọn Khối.');
+                    gradeSelect.reportValidity();
+                }
+                return;
+            }
+
+            if (!classSelect || !classSelect.value) {
+                if (classSelect) {
+                    classSelect.setCustomValidity('Vui lòng chọn Lớp.');
+                    classSelect.reportValidity();
+                }
+                return;
+            }
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            // Dữ liệu đăng ký (giữ cả grade và class, Development Mode)
+            const registrationData = {
+                competition: document.getElementById('regCompetition').value,
+                studentName: document.getElementById('regStudentName').value,
+                grade: gradeSelect.value,
+                class: classSelect.value,
+                phone: document.getElementById('regPhone').value,
+                timestamp: new Date().toISOString()
+            };
+            console.log('Registration submitted (Development Mode):', registrationData);
+
+            // Development Mode: Không gửi dữ liệu ra server ngoài
+            const toast = document.getElementById('toast');
+            toast.textContent = 'Đăng ký thử nghiệm thành công. Dữ liệu chưa được gửi.';
+            toast.style.backgroundColor = '#4CAF50';
+            toast.className = 'toast show';
+            setTimeout(() => { 
+                toast.className = toast.className.replace('show', ''); 
+            }, 3000);
+
+            form.reset();
+            handleRegGradeChange('');
+            closeModal('registerModal');
+        }
+
+        // Đóng modal khi click ra ngoài vùng backdrop
+        ['detailModal', 'registerModal'].forEach(id => {
+            const modalEl = document.getElementById(id);
+            if (modalEl) {
+                modalEl.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeModal(id);
+                    }
+                });
+            }
+        });
+
+        // Đóng modal bằng phím Escape (Hỗ trợ bàn phím / Accessibility)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const detailModal = document.getElementById('detailModal');
+                const registerModal = document.getElementById('registerModal');
+                if (registerModal && !registerModal.classList.contains('hidden')) {
+                    closeModal('registerModal');
+                } else if (detailModal && !detailModal.classList.contains('hidden')) {
+                    closeModal('detailModal');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

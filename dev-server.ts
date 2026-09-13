@@ -22,9 +22,9 @@ app.get('/health', (_req: Request, res: Response) => {
   res.status(200).send('OK');
 });
 
-// Fallback all other routes to index.html
+// Fallback all other routes to public/index.html
 app.get('*', (_req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(publicDir, 'index.html'));
 });
 
 const server = app.listen(PORT, HOST, () => {
