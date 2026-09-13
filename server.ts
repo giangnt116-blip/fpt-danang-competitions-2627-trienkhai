@@ -10,7 +10,11 @@ const app = express();
 const PORT = 3000;
 const HOST = '0.0.0.0';
 
-// Serve static assets from workspace root
+// Ưu tiên phục vụ static assets từ thư mục public/ (tương thích Vercel Production và CDN)
+const publicDir = path.join(__dirname, 'public');
+app.use(express.static(publicDir));
+
+// Fallback static root tạm thời sau public để tương thích hoàn toàn
 app.use(express.static(__dirname));
 
 // Health check endpoint

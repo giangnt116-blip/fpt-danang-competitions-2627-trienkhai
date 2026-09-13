@@ -69,6 +69,42 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Scroll Viewport Timeline */
+        .timeline-viewport {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            overflow-x: auto;
+            overflow-y: visible;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x;
+            overscroll-behavior-x: contain;
+            scroll-behavior: smooth;
+        }
+        @media (min-width: 640px) {
+            .timeline-viewport {
+                overflow-x: visible;
+            }
+        }
+        /* Inner Row Timeline */
+        .timeline-inner-row {
+            display: flex;
+            flex-wrap: nowrap;
+            width: max-content;
+            min-width: max-content;
+        }
+        @media (min-width: 640px) {
+            .timeline-inner-row {
+                display: flex;
+                flex-wrap: wrap;
+                width: auto;
+                min-width: 0;
+            }
+        }
+        .timeline-btn {
+            flex: 0 0 auto;
+            white-space: nowrap;
+        }
         /* Corner badge cho nút Tất cả và các nút Tháng */
         .timeline-corner-badge {
             position: absolute;
@@ -159,69 +195,82 @@
 
     <!-- Timeline Filter Section -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-5 sm:-mt-6 relative z-20">
-        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100">
-            <div class="flex items-center justify-between mb-3">
+        <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-lg border border-gray-100 min-w-0">
+            <div class="flex items-center justify-between mb-2 sm:mb-3">
                 <span class="text-xs font-bold text-fpt-blue uppercase tracking-wider flex items-center gap-1.5">
                     <span>📅</span> LỊCH TRÌNH THEO THÁNG
                 </span>
-                <span class="text-[11px] text-gray-400 font-medium sm:hidden flex items-center gap-1">
-                    <span>👈</span> Vuốt ngang <span>👉</span>
-                </span>
+                <div class="flex items-center gap-2 sm:hidden">
+                    <span class="text-[11px] text-gray-400 font-medium flex items-center gap-1">
+                        <span>👈</span> Vuốt ngang <span>👉</span>
+                    </span>
+                    <div class="inline-flex items-center gap-1">
+                        <button type="button" onclick="scrollTimeline(-1)" aria-label="Cuộn sang trái" class="w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 active:scale-95 text-xs font-bold transition-all select-none">
+                            ‹
+                        </button>
+                        <button type="button" onclick="scrollTimeline(1)" aria-label="Cuộn sang phải" class="w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 active:scale-95 text-xs font-bold transition-all select-none">
+                            ›
+                        </button>
+                    </div>
+                </div>
             </div>
-            <!-- Cuộn ngang 1 dòng mượt mà trên mobile, wrap linh hoạt trên desktop -->
-            <div class="flex flex-nowrap sm:flex-wrap gap-2.5 sm:gap-3 overflow-x-auto sm:overflow-x-visible pt-2.5 pb-2.5 sm:pb-0 no-scrollbar" id="timelineContainer">
-                <button onclick="filterByMonth(null, event)" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-fpt-blue text-white transition-colors duration-200 shadow-sm" id="timelineBtnAll">
-                    <span>Tất cả</span>
-                    <span class="timeline-corner-badge" id="badgeAll">50</span>
-                </button>
-                <button onclick="filterByMonth(8, event)" data-month="8" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth8">
-                    <span>Tháng 8</span>
-                    <span class="timeline-corner-badge" id="badgeMonth8">0</span>
-                </button>
-                <button onclick="filterByMonth(9, event)" data-month="9" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth9">
-                    <span>Tháng 9</span>
-                    <span class="timeline-corner-badge" id="badgeMonth9">0</span>
-                </button>
-                <button onclick="filterByMonth(10, event)" data-month="10" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth10">
-                    <span>Tháng 10</span>
-                    <span class="timeline-corner-badge" id="badgeMonth10">0</span>
-                </button>
-                <button onclick="filterByMonth(11, event)" data-month="11" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth11">
-                    <span>Tháng 11</span>
-                    <span class="timeline-corner-badge" id="badgeMonth11">0</span>
-                </button>
-                <button onclick="filterByMonth(12, event)" data-month="12" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth12">
-                    <span>Tháng 12</span>
-                    <span class="timeline-corner-badge" id="badgeMonth12">0</span>
-                </button>
-                <button onclick="filterByMonth(1, event)" data-month="1" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth1">
-                    <span>Tháng 1</span>
-                    <span class="timeline-corner-badge" id="badgeMonth1">0</span>
-                </button>
-                <button onclick="filterByMonth(2, event)" data-month="2" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth2">
-                    <span>Tháng 2</span>
-                    <span class="timeline-corner-badge" id="badgeMonth2">0</span>
-                </button>
-                <button onclick="filterByMonth(3, event)" data-month="3" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth3">
-                    <span>Tháng 3</span>
-                    <span class="timeline-corner-badge" id="badgeMonth3">0</span>
-                </button>
-                <button onclick="filterByMonth(4, event)" data-month="4" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth4">
-                    <span>Tháng 4</span>
-                    <span class="timeline-corner-badge" id="badgeMonth4">0</span>
-                </button>
-                <button onclick="filterByMonth(5, event)" data-month="5" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth5">
-                    <span>Tháng 5</span>
-                    <span class="timeline-corner-badge" id="badgeMonth5">0</span>
-                </button>
-                <button onclick="filterByMonth(6, event)" data-month="6" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth6">
-                    <span>Tháng 6</span>
-                    <span class="timeline-corner-badge" id="badgeMonth6">0</span>
-                </button>
-                <button onclick="filterByMonth(7, event)" data-month="7" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth7">
-                    <span>Tháng 7</span>
-                    <span class="timeline-corner-badge" id="badgeMonth7">0</span>
-                </button>
+            <!-- Timeline Scroll Viewport: 100% width, native horizontal swipe on mobile -->
+            <div id="timelineViewport" class="timeline-viewport no-scrollbar pt-2.5 pb-2.5 sm:pt-0 sm:pb-0">
+                <!-- Timeline Inner Row: 1 hàng duy nhất trên mobile (width: max-content), wrap linh hoạt trên desktop -->
+                <div id="timelineContainer" class="timeline-inner-row gap-2.5 sm:gap-3 pl-1 pr-3.5 sm:px-0 items-center">
+                    <button onclick="filterByMonth(null, event)" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-fpt-blue text-white transition-colors duration-200 shadow-sm" id="timelineBtnAll">
+                        <span>Tất cả</span>
+                        <span class="timeline-corner-badge" id="badgeAll">50</span>
+                    </button>
+                    <button onclick="filterByMonth(8, event)" data-month="8" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth8">
+                        <span>Tháng 8</span>
+                        <span class="timeline-corner-badge" id="badgeMonth8">0</span>
+                    </button>
+                    <button onclick="filterByMonth(9, event)" data-month="9" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth9">
+                        <span>Tháng 9</span>
+                        <span class="timeline-corner-badge" id="badgeMonth9">0</span>
+                    </button>
+                    <button onclick="filterByMonth(10, event)" data-month="10" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth10">
+                        <span>Tháng 10</span>
+                        <span class="timeline-corner-badge" id="badgeMonth10">0</span>
+                    </button>
+                    <button onclick="filterByMonth(11, event)" data-month="11" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth11">
+                        <span>Tháng 11</span>
+                        <span class="timeline-corner-badge" id="badgeMonth11">0</span>
+                    </button>
+                    <button onclick="filterByMonth(12, event)" data-month="12" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth12">
+                        <span>Tháng 12</span>
+                        <span class="timeline-corner-badge" id="badgeMonth12">0</span>
+                    </button>
+                    <button onclick="filterByMonth(1, event)" data-month="1" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth1">
+                        <span>Tháng 1</span>
+                        <span class="timeline-corner-badge" id="badgeMonth1">0</span>
+                    </button>
+                    <button onclick="filterByMonth(2, event)" data-month="2" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth2">
+                        <span>Tháng 2</span>
+                        <span class="timeline-corner-badge" id="badgeMonth2">0</span>
+                    </button>
+                    <button onclick="filterByMonth(3, event)" data-month="3" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth3">
+                        <span>Tháng 3</span>
+                        <span class="timeline-corner-badge" id="badgeMonth3">0</span>
+                    </button>
+                    <button onclick="filterByMonth(4, event)" data-month="4" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth4">
+                        <span>Tháng 4</span>
+                        <span class="timeline-corner-badge" id="badgeMonth4">0</span>
+                    </button>
+                    <button onclick="filterByMonth(5, event)" data-month="5" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth5">
+                        <span>Tháng 5</span>
+                        <span class="timeline-corner-badge" id="badgeMonth5">0</span>
+                    </button>
+                    <button onclick="filterByMonth(6, event)" data-month="6" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth6">
+                        <span>Tháng 6</span>
+                        <span class="timeline-corner-badge" id="badgeMonth6">0</span>
+                    </button>
+                    <button onclick="filterByMonth(7, event)" data-month="7" class="timeline-btn relative shrink-0 px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors duration-200" id="timelineBtnMonth7">
+                        <span>Tháng 7</span>
+                        <span class="timeline-corner-badge" id="badgeMonth7">0</span>
+                    </button>
+                </div>
             </div>
         </div>
     </section>
@@ -904,6 +953,17 @@
             });
         }
 
+        // Cuộn timeline viewport trên mobile bằng nút mũi tên
+        function scrollTimeline(direction) {
+            const viewport = document.getElementById('timelineViewport');
+            if (viewport) {
+                viewport.scrollBy({
+                    left: direction * 220,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
         // Tương tác Timeline Tháng
         function filterByMonth(month, event) {
             currentFilter.month = month;
@@ -914,14 +974,34 @@
                 btn.classList.add('bg-gray-100', 'text-gray-700');
             });
 
+            const viewport = document.getElementById('timelineViewport');
+
             if (event && event.currentTarget) {
-                event.currentTarget.classList.remove('bg-gray-100', 'text-gray-700');
-                event.currentTarget.classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+                const activeBtn = event.currentTarget;
+                activeBtn.classList.remove('bg-gray-100', 'text-gray-700');
+                activeBtn.classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+
+                if (viewport && window.innerWidth < 640) {
+                    const btnLeft = activeBtn.offsetLeft;
+                    const btnWidth = activeBtn.offsetWidth;
+                    const vpWidth = viewport.clientWidth;
+                    const targetLeft = Math.max(0, btnLeft - (vpWidth / 2) + (btnWidth / 2));
+                    viewport.scrollTo({
+                        left: targetLeft,
+                        behavior: 'smooth'
+                    });
+                }
             } else {
                 // Nút "Tất cả" là nút đầu tiên
                 if (buttons[0]) {
                     buttons[0].classList.remove('bg-gray-100', 'text-gray-700');
                     buttons[0].classList.add('bg-fpt-blue', 'text-white', 'shadow-sm');
+                }
+                if (viewport && window.innerWidth < 640) {
+                    viewport.scrollTo({
+                        left: 0,
+                        behavior: 'smooth'
+                    });
                 }
             }
 
@@ -991,6 +1071,11 @@
 
             const clearBtn = document.getElementById('clearSearchBtn');
             if (clearBtn) clearBtn.classList.add('hidden');
+
+            const viewport = document.getElementById('timelineViewport');
+            if (viewport && window.innerWidth < 640) {
+                viewport.scrollTo({ left: 0, behavior: 'smooth' });
+            }
 
             applyFilters();
         }
