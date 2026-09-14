@@ -899,8 +899,17 @@
                 const displayTime = getCompetitionTime(comp);
                 const categoryPlaceholder = getCategoryPlaceholder(comp.category);
                 const imgSrc = (comp.image && comp.image.trim()) ? comp.image.trim() : categoryPlaceholder;
+                const statsKey = String(comp.id || '').trim().toLowerCase();
+
+                const uniqueStudents =
+                    competitionStatsMap[statsKey]?.uniqueStudents || 0;
+                const registrationBadge =
+                        uniqueStudents > 0
+                        ? `🔥 ${uniqueStudents} HS đăng ký`
+                        : `👥 Chưa có đăng ký`;
 
                 const card = document.createElement('div');
+                
                 card.className = "bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col h-full";
                 card.innerHTML = `
                     <div class="relative h-48 overflow-hidden bg-gray-200 shrink-0">
@@ -919,7 +928,7 @@
     </h4>
 
     <span class="shrink-0 inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-orange-50 text-fpt-orange text-[11px] sm:text-xs font-bold border border-orange-100 whitespace-nowrap">
-        🔥 37 HS đăng ký
+        ${registrationBadge}
     </span>
 </div>
                         <div class="space-y-2 mb-5 shrink-0">
