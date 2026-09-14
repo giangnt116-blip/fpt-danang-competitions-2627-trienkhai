@@ -1541,8 +1541,48 @@
                 }
             }, 300);
         }
+        async function submitRegistration(registration) {
+    try {
+        const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(registration)
+        });
 
-        function submitForm(e) {
+        const data = await response.json();
+
+        if (data.success) {
+            return {
+                success: true,
+                data: data
+            };
+        }
+
+        if (data.code === 'DUPLICATE_REGISTRATION') {
+            return {
+                success: false,
+                duplicate: true,
+                data: data
+            };
+        }
+
+        return {
+            success: false,
+            data: data
+        };
+
+    } catch (error) {
+        console.error('REGISTRATION_SUBMIT_ERROR', error);
+
+        return {
+            success: false,
+            error: error
+        };
+    }
+}
+        async function submitForm(e) {
             e.preventDefault();
             const form = document.getElementById('registrationForm');
             const compTitleInput = document.getElementById('regCompetition');
@@ -1669,25 +1709,69 @@
 
             const duplicateKey = buildRegistrationKey(registration);
 
-            // Development Mode: TUYỆT ĐỐI KHÔNG GỬI DỮ LIỆU RA NGOÀI
-            console.log('REGISTRATION_WF1_PREVIEW', registration);
-            console.log('duplicateKey:', duplicateKey);
+console.log('REGISTRATION_SUBMIT', registration);
+console.log('duplicateKey:', duplicateKey);
 
-            // Toast thông báo thành công ở chế độ Development Mode
-            const toast = document.getElementById('toast');
-            if (toast) {
-                toast.textContent = 'Đăng ký thử nghiệm thành công. Dữ liệu chưa được gửi lên hệ thống.';
-                toast.style.backgroundColor = '#4CAF50';
-                toast.className = 'toast show';
-                setTimeout(() => { 
-                    toast.className = toast.className.replace('show', ''); 
-                }, 3000);
-            }
+const submitBtn = document.getElementById('submitBtn');
 
-            form.reset();
-            handleRegGradeChange('');
-            closeModal('registerModal');
-        }
+if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Đang gửi...';
+    submitBtn.classList.add('opacity-60', 'cursor-not-allowed');
+}
+
+const result = await submitRegistration(registration);
+
+const toast = document.getElementById('toast');
+
+if (result.success) {
+    if (toast) {
+        toast.textContent = 'Đăng ký thành công.';
+        toast.style.backgroundColor = '#4CAF50';
+        toast.className = 'toast show';
+
+        setTimeout(() => {
+            toast.className = toast.className.replace('show', '');
+        }, 3000);
+    }
+
+    form.reset();
+    handleRegGradeChange('');
+    closeModal('registerModal');
+
+} else if (result.duplicate) {
+
+    if (toast) {
+        toast.textContent = 'Học sinh đã đăng ký cuộc thi/vòng thi này.';
+        toast.style.backgroundColor = '#f59e0b';
+        toast.className = 'toast show';
+
+        setTimeout(() => {
+            toast.className = toast.className.replace('show', '');
+        }, 3500);
+    }
+
+} else {
+
+    if (toast) {
+        toast.textContent =
+            result.data?.message ||
+            'Không thể đăng ký lúc này. Vui lòng thử lại.';
+
+        toast.style.backgroundColor = '#dc2626';
+        toast.className = 'toast show';
+
+        setTimeout(() => {
+            toast.className = toast.className.replace('show', '');
+        }, 3500);
+    }
+}
+
+if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Xác nhận';
+    submitBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+}
 
         // Đóng modal khi click ra ngoài vùng backdrop
         ['detailModal', 'registerModal'].forEach(id => {
