@@ -781,6 +781,7 @@
         };
 
         let competitions = [];
+        let competitionStatsMap = {};
 
         // Quản lý trạng thái bộ lọc kết hợp
         const currentFilter = {
@@ -833,6 +834,42 @@
                 select.appendChild(option);
             });
         }
+        async function loadCompetitionStats() {
+    try {
+        const response = await fetch('/api/stats');
+        const data = await response.json();
+
+        if (!data.success || !Array.isArray(data.competitions)) {
+            console.warn('COMPETITION_STATS_INVALID', data);
+            return;
+        }
+
+        competitionStatsMap = {};
+
+        data.competitions.forEach(item => {
+            const competitionId = String(item.competitionId || '')
+                .trim()
+                .toLowerCase();
+
+            if (!competitionId) return;
+
+            competitionStatsMap[competitionId] = {
+                uniqueStudents: Number(item.uniqueStudents || 0)
+            };
+        });
+
+        console.log(
+            'COMPETITION_STATS_LOADED',
+            competitionStatsMap
+        );
+
+    } catch (error) {
+        console.error(
+            'COMPETITION_STATS_ERROR',
+            error
+        );
+    }
+}
 
         // Hiển thị danh sách card với chiều cao và layout đồng bộ
         function renderCards(filtered) {
@@ -1168,6 +1205,7 @@
                     throw new Error('HTTP ' + response.status);
                 }
                 competitions = await response.json();
+                await loadCompetitionStats();
                 populateCategoryOptions();
                 applyFilters();
             } catch (error) {
