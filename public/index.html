@@ -836,8 +836,59 @@
         }
         async function loadCompetitionStats() {
     try {
-        const response = await fetch('/api/stats');
-        const data = await response.json();
+        let data;
+
+try {
+    const response = await fetch('/api/stats', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json'
+        }
+    });
+
+    const contentType = response.headers.get('content-type') || '';
+
+    if (!response.ok || !contentType.includes('application/json')) {
+        throw new Error('Local stats API unavailable');
+    }
+
+    data = await response.json();
+
+    console.log(
+        'COMPETITION_STATS_SOURCE',
+        'local'
+    );
+
+} catch (localError) {
+    console.warn(
+        'LOCAL_STATS_FAILED, USING PRODUCTION FALLBACK',
+        localError
+    );
+
+    const fallbackResponse = await fetch(
+        'https://fpt-danang-competitions-trienkhai.vercel.app/api/stats',
+        {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }
+    );
+
+    if (!fallbackResponse.ok) {
+        throw new Error(
+            'Production stats API HTTP ' +
+            fallbackResponse.status
+        );
+    }
+
+    data = await fallbackResponse.json();
+
+    console.log(
+        'COMPETITION_STATS_SOURCE',
+        'vercel-production-fallback'
+    );
+}
 
         if (!data.success || !Array.isArray(data.competitions)) {
             console.warn('COMPETITION_STATS_INVALID', data);
